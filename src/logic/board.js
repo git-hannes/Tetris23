@@ -10,10 +10,12 @@ export class Board {
   }
 
   isValidMove(tetromino, posX, posY) {
-    for (let y = 0; y < tetromino.shape.length; y++) {
-      for (let x = 0; x < tetromino.shape[y].length; x++) {
+    const shape = tetromino.data[tetromino.rotation]
+
+    for (let y = 0; y < shape.length; y++) {
+      for (let x = 0; x < shape[y].length; x++) {
         if (
-          tetromino.shape[y][x] &&
+          shape[y][x] &&
           (posY + y < 0 ||
             posX + x < 0 ||
             posX + x >= this.cols ||
@@ -28,13 +30,19 @@ export class Board {
   }
 
   lockPiece(tetromino, posX, posY) {
-    for (let y = 0; y < tetromino.shape.length; y++) {
-      for (let x = 0; x < tetromino.shape[y].length; x++) {
-        if (tetromino.shape[y][x]) {
-          this.boardMatrix[posY + y][posX + x] = tetromino.color
+    const shape = tetromino.data[tetromino.rotation]
+
+    for (let y = 0; y < shape.length; y++) {
+      for (let x = 0; x < shape[y].length; x++) {
+        if (shape[y][x]) {
+          this.boardMatrix[posY + y][posX + x] = tetromino.type
         }
       }
     }
+  }
+
+  get grid() {
+    return this.boardMatrix
   }
 
   clearLines() {

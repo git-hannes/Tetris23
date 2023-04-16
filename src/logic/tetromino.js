@@ -1,5 +1,5 @@
 import TETROMINOS from '@/constants/tetrominos.js'
-import { BOARD_ROWS, BOARD_COLS } from '@/constants/board.js'
+import { BOARD_ROWS, BOARD_COLS, LOCK_DELAY } from '@/constants/board.js'
 
 function getRandomTetrominoType() {
   const types = Object.keys(TETROMINOS)
@@ -54,6 +54,34 @@ export class Tetromino {
       }
     }
     return false
+  }
+
+  hardDrop() {
+    let cellsDropped = 0
+    while (this.move(0, 1)) {
+      cellsDropped++
+    }
+    // Calculate the number of cells dropped for a hard drop
+    this.hardDropScore(cellsDropped - 1) // Subtract 1 since the last move didn't count
+  }
+
+  lock() {
+    const { x: posX, y: posY } = this.position
+    for (let row = 0; row < this.data.length; row++) {
+      for (let col = 0; col < this.data[row].length; col++) {
+        if (this.data[row][col]) {
+          this.board[row + posY][col + posX] = this.data[row][col]
+        }
+      }
+    }
+  }
+
+  softDropScore() {
+    // Add soft drop score implementation
+  }
+
+  hardDropScore(cellsDropped) {
+    // Add hard drop score implementation
   }
 
   // You can add other methods related to the Tetromino operation if needed

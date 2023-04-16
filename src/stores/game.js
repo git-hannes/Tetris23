@@ -2,7 +2,6 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { Board } from '@/logic/board.js'
 import { Tetromino } from '@/logic/tetromino.js'
-import TETROMINOS from '@/constants/tetrominos.js'
 
 function createInitialState() {
   return {
@@ -20,8 +19,8 @@ export const useGameStore = defineStore('game', () => {
   const state = reactive(createInitialState())
 
   function startGame() {
-    state.currentTetromino = new Tetromino(TETROMINOS)
-    state.nextTetromino = new Tetromino(TETROMINOS)
+    state.currentTetromino = new Tetromino(state.board.grid)
+    state.nextTetromino = new Tetromino(state.board.grid)
     state.stage = 'playing'
   }
 
