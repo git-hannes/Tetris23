@@ -2,6 +2,8 @@ import TETROMINOS from '@/constants/tetrominos.js'
 import { BOARD_ROWS, BOARD_COLS, LOCK_DELAY } from '@/constants/board.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
 
+import { useGameStore } from '@/stores/game.js'
+
 function getRandomTetrominoType() {
   const types = Object.keys(TETROMINOS)
   return types[Math.floor(Math.random() * types.length)]
@@ -40,6 +42,33 @@ export class Tetromino {
     this.rotation = 0
     this.shape = getRotatedMatrix(this.data.shape, this.rotation) // Initialize the shape with the rotated matrix
     this.position = { x: Math.floor(BOARD_COLS / 2) - 1, y: 0 }
+    this.gameStore = useGameStore()
+  }
+
+  move(direction) {
+    const { x, y } = DIRECTION[direction]
+
+    if (!this.checkCollision(x, y)) {
+      this.position.x += x
+      this.position.y += y
+      return true
+    } else {
+      if (direction === 'DOWN') {
+        this.lock()
+        this.gameStore.spawnNewTetromino()
+      }
+      return false
+    }
+  }
+
+  hardDrop() {
+    let cellsDropped = 0
+    while (this.move('DOWN')) {
+      cellsDropped++
+    }
+    this.lock()
+    this.gameStore.spawnNewTetromino()
+    return cellsDropped
   }
 
   rotate() {
@@ -67,17 +96,6 @@ export class Tetromino {
     return false
   }
 
-  move(direction) {
-    const { x, y } = DIRECTION[direction]
-
-    if (!this.checkCollision(x, y)) {
-      this.position.x += x
-      this.position.y += y
-      return true
-    } else console.log('collision')
-    return false
-  }
-
   checkCollision(offsetX, offsetY, matrix = this.shape) {
     const { x: posX, y: posY } = this.position
     for (let row = 0; row < matrix.length; row++) {
@@ -94,14 +112,6 @@ export class Tetromino {
       }
     }
     return false
-  }
-
-  hardDrop() {
-    let cellsDropped = 0
-    while (this.move('DOWN')) {
-      cellsDropped++
-    }
-    return cellsDropped
   }
 
   lock() {

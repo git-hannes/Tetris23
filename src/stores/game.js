@@ -1,3 +1,4 @@
+// game.js
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { Board } from '@/logic/board.js'
@@ -31,12 +32,18 @@ export const useGameStore = defineStore('game', () => {
     Object.assign(state, createInitialState())
   }
 
+  function spawnNewTetromino() {
+    tetromino.current = tetromino.next
+    tetromino.next = new Tetromino(state.board)
+  }
+
   // Implement other game-related methods and actions here
 
   return {
     state,
     startGame,
     resetGame,
-    tetromino
+    tetromino,
+    spawnNewTetromino
   }
 })
