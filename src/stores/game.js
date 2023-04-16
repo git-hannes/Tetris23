@@ -9,25 +9,22 @@ function createInitialState() {
     score: 0,
     level: 0,
     lines: 0,
-    board: new Board(20, 10),
-    currentTetromino: null,
-    nextTetromino: null
+    board: new Board(20, 10)
   }
 }
 
 export const useGameStore = defineStore('game', () => {
   const state = reactive(createInitialState())
 
-  function moveTetromino(direction) {
-    if (state.stage === 'playing') {
-      state.currentTetromino.move(direction)
-    }
-  }
+  const tetromino = reactive({
+    current: null,
+    next: null
+  })
 
   function startGame() {
-    state.currentTetromino = new Tetromino(state.board)
-    state.nextTetromino = new Tetromino(state.board)
     state.stage = 'playing'
+    tetromino.current = new Tetromino(state.board)
+    tetromino.next = new Tetromino(state.board)
   }
 
   function resetGame() {
@@ -40,6 +37,6 @@ export const useGameStore = defineStore('game', () => {
     state,
     startGame,
     resetGame,
-    moveTetromino
+    tetromino
   }
 })

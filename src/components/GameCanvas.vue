@@ -19,7 +19,7 @@ function drawBoard(ctx) {
 }
 
 function drawTetromino(ctx) {
-  const tetromino = game.state.currentTetromino
+  const tetromino = game.tetromino.current
   const shape = tetromino.shape
 
   for (let row = 0; row < shape.length; row++) {
@@ -55,7 +55,7 @@ function gameLoop(ctx, timestamp) {
 
     const fallingSpeed = 1000 - game.state.level * 50 // Change this formula if needed
     if (timestamp - lastDropTime > fallingSpeed) {
-      game.moveTetromino('DOWN')
+      game.tetromino.current.move('DOWN')
       lastDropTime = timestamp
     }
   }
