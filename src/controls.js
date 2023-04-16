@@ -1,5 +1,4 @@
 import { useGameStore } from '@/stores/game.js'
-import WALL_KICK_DATA from '@/constants/wallKickData.js'
 
 export function handleKeyDown({ code }) {
   const game = useGameStore()
@@ -22,16 +21,13 @@ export function handleKeyDown({ code }) {
       break
 
     case 'Space':
-      tetromino.hardDrop('DOWN')
+      tetromino.hardDrop()
       break
 
     case 'ArrowUp':
     case 'KeyW':
       tetromino.rotate()
       break
-
-    // Remove 'ControlRight', 'KeyQ', and 'KeyC' cases
-    // because they're not supported in the current implementation
 
     default:
       break
