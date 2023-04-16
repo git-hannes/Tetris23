@@ -4,14 +4,15 @@ import { handleKeyDown } from '@/controls.js'
 import { CANVAS_WIDTH, CANVAS_HEIGHT, BLOCK_SIZE } from '@/constants/board.js'
 import { useGameStore } from '@/stores/game.js'
 
-let canvas = ref(null)
 const game = useGameStore()
+let canvas = ref(null)
 
 function drawBoard(ctx) {
   const board = game.state.board
   for (let row = 0; row < board.rows; row++) {
     for (let col = 0; col < board.cols; col++) {
-      ctx.fillStyle = board.boardMatrix[row][col] ? 'blue' : 'white'
+      const cell = board.boardMatrix[row][col]
+      ctx.fillStyle = cell ? cell.color : 'white'
       ctx.fillRect(col * BLOCK_SIZE, row * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
       ctx.strokeStyle = 'black'
       ctx.strokeRect(col * BLOCK_SIZE, row * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)

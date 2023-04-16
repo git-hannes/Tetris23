@@ -119,7 +119,10 @@ export class Tetromino {
     for (let row = 0; row < this.shape.length; row++) {
       for (let col = 0; col < this.shape[row].length; col++) {
         if (this.shape[row][col]) {
-          this.board.boardMatrix[row + posY][col + posX] = this.shape[row][col]
+          this.board.boardMatrix[row + posY][col + posX] = {
+            value: this.shape[row][col],
+            color: this.data.color
+          }
         }
       }
     }
