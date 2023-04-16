@@ -7,9 +7,22 @@ function getRandomTetrominoType() {
   return types[Math.floor(Math.random() * types.length)]
 }
 
-function getRotatedMatrix(matrix) {
-  const N = matrix.length - 1
-  const result = matrix.map((row, i) => row.map((val, j) => matrix[N - j][i]))
+function getRotatedMatrix(matrix, rotations) {
+  let result = matrix
+
+  for (let r = 0; r < rotations; r++) {
+    const N = result.length - 1
+    const temp = Array.from({ length: result.length }, () =>
+      Array(result.length).fill(0)
+    )
+    for (let i = 0; i <= N; i++) {
+      for (let j = 0; j <= N; j++) {
+        temp[i][j] = result[N - j][i]
+      }
+    }
+    result = temp
+  }
+
   return result
 }
 
@@ -25,13 +38,13 @@ export class Tetromino {
     this.type = getRandomTetrominoType()
     this.data = TETROMINOS[this.type]
     this.rotation = 0
-    this.shape = this.data.shape
+    this.shape = getRotatedMatrix(this.data.shape, this.rotation) // Initialize the shape with the rotated matrix
     this.position = { x: Math.floor(BOARD_COLS / 2) - 1, y: 0 }
   }
 
   rotate() {
     const nextRotation = (this.rotation + 1) % 4
-    const rotatedShape = getRotatedMatrix(this.data.shape[nextRotation])
+    const rotatedShape = getRotatedMatrix(this.data.shape, nextRotation)
 
     if (
       !this.checkCollision(0, 0, rotatedShape) ||
@@ -64,7 +77,6 @@ export class Tetromino {
 
   move(direction) {
     const { x, y } = DIRECTION[direction]
-    console.log(x, y)
 
     if (!this.checkCollision(x, y)) {
       this.position.x += x
