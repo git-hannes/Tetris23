@@ -97,9 +97,11 @@ export class Tetromino {
   }
 
   hardDrop() {
-    while (this.move(0, 1)) {
+    let cellsDropped = 0
+    while (this.move('DOWN')) {
       cellsDropped++
     }
+    return cellsDropped
   }
 
   lock() {
