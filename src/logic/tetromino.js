@@ -12,6 +12,12 @@ function getRotatedMatrix(matrix) {
   return result
 }
 
+const DIRECTION = {
+  LEFT: { x: -1, y: 0 },
+  RIGHT: { x: 1, y: 0 },
+  DOWN: { x: 0, y: 1 }
+}
+
 export class Tetromino {
   constructor(board) {
     this.board = board
@@ -32,23 +38,28 @@ export class Tetromino {
     }
   }
 
-  move(x, y) {
+  move(direction) {
+    const { x, y } = DIRECTION[direction]
+    console.log(x, y)
+
     if (!this.checkCollision(x, y)) {
       this.position.x += x
       this.position.y += y
       return true
-    }
+    } else console.log('collision')
     return false
   }
 
-  checkCollision(offsetX, offsetY, matrix = this.data[this.rotation]) {
+  checkCollision(offsetX, offsetY, matrix = this.shape) {
     const { x: posX, y: posY } = this.position
     for (let row = 0; row < matrix.length; row++) {
       for (let col = 0; col < matrix[row].length; col++) {
         if (
           matrix[row][col] &&
-          (this.board[row + posY + offsetY] &&
-            this.board[row + posY + offsetY][col + posX + offsetX]) !== 0
+          (this.board.boardMatrix[row + posY + offsetY] &&
+            this.board.boardMatrix[row + posY + offsetY][
+              col + posX + offsetX
+            ]) !== 0
         ) {
           return true
         }
@@ -68,10 +79,10 @@ export class Tetromino {
 
   lock() {
     const { x: posX, y: posY } = this.position
-    for (let row = 0; row < this.data.length; row++) {
-      for (let col = 0; col < this.data[row].length; col++) {
-        if (this.data[row][col]) {
-          this.board[row + posY][col + posX] = this.data[row][col]
+    for (let row = 0; row < this.shape.length; row++) {
+      for (let col = 0; col < this.shape[row].length; col++) {
+        if (this.shape[row][col]) {
+          this.board.boardMatrix[row + posY][col + posX] = this.shape[row][col]
         }
       }
     }

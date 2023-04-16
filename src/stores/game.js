@@ -18,6 +18,12 @@ function createInitialState() {
 export const useGameStore = defineStore('game', () => {
   const state = reactive(createInitialState())
 
+  function moveTetromino(direction) {
+    if (state.stage === 'playing') {
+      state.currentTetromino.move(direction)
+    }
+  }
+
   function startGame() {
     state.currentTetromino = new Tetromino(state.board)
     state.nextTetromino = new Tetromino(state.board)
@@ -33,6 +39,7 @@ export const useGameStore = defineStore('game', () => {
   return {
     state,
     startGame,
-    resetGame
+    resetGame,
+    moveTetromino
   }
 })

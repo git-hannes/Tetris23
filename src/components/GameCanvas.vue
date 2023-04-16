@@ -24,7 +24,6 @@ function drawTetromino(ctx) {
 
   for (let row = 0; row < shape.length; row++) {
     for (let col = 0; col < shape[row].length; col++) {
-      console.log('drawing')
       if (shape[row][col]) {
         ctx.fillStyle = tetromino.data.color
         ctx.fillRect(
@@ -45,20 +44,28 @@ function drawTetromino(ctx) {
   }
 }
 
-function gameLoop(ctx) {
+let lastDropTime = 0
+
+function gameLoop(ctx, timestamp) {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
   drawBoard(ctx)
 
   if (game.state.stage === 'playing') {
     drawTetromino(ctx)
+
+    const fallingSpeed = 1000 - game.state.level * 50 // Change this formula if needed
+    if (timestamp - lastDropTime > fallingSpeed) {
+      game.moveTetromino('DOWN')
+      lastDropTime = timestamp
+    }
   }
 
-  requestAnimationFrame(() => gameLoop(ctx))
+  requestAnimationFrame(gameLoop.bind(null, ctx))
 }
 
 onMounted(() => {
   const ctx = canvas.value.getContext('2d')
-  gameLoop(ctx)
+  gameLoop(ctx, 0) // Pass 0 as the initial timestamp
 })
 </script>
 
