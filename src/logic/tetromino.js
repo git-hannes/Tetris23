@@ -1,5 +1,6 @@
 import TETROMINOS from '@/constants/tetrominos.js'
 import { BOARD_ROWS, BOARD_COLS, LOCK_DELAY } from '@/constants/board.js'
+import WALL_KICK_DATA from '@/constants/wallKickData.js'
 
 function getRandomTetrominoType() {
   const types = Object.keys(TETROMINOS)
@@ -24,18 +25,41 @@ export class Tetromino {
     this.type = getRandomTetrominoType()
     this.data = TETROMINOS[this.type]
     this.rotation = 0
-    this.shape = this.data.shape // Change this line
+    this.shape = this.data.shape
     this.position = { x: Math.floor(BOARD_COLS / 2) - 1, y: 0 }
   }
 
   rotate() {
     const nextRotation = (this.rotation + 1) % 4
-    const rotatedShape = getRotatedMatrix(this.shape[nextRotation])
+    const rotatedShape = getRotatedMatrix(this.data.shape[nextRotation])
 
-    if (!this.checkCollision(0, 0, rotatedShape)) {
+    if (
+      !this.checkCollision(0, 0, rotatedShape) ||
+      this.tryWallKicks(nextRotation, rotatedShape)
+    ) {
       this.rotation = nextRotation
-      this.shape = this.data.shape[this.rotation]
+      this.shape = rotatedShape
     }
+  }
+
+  tryWallKicks(nextRotation, rotatedShape) {
+    const wallKickData =
+      this.type === 'I' ? WALL_KICK_DATA.I : WALL_KICK_DATA.default
+    const currentOffsets = wallKickData[this.rotation]
+    const nextOffsets = wallKickData[nextRotation]
+
+    for (let i = 0; i < currentOffsets.length; i++) {
+      const offsetX = nextOffsets[i].x - currentOffsets[i].x
+      const offsetY = nextOffsets[i].y - currentOffsets[i].y
+
+      if (!this.checkCollision(offsetX, offsetY, rotatedShape)) {
+        this.position.x += offsetX
+        this.position.y += offsetY
+        return true
+      }
+    }
+
+    return false
   }
 
   move(direction) {
@@ -69,12 +93,9 @@ export class Tetromino {
   }
 
   hardDrop() {
-    let cellsDropped = 0
     while (this.move(0, 1)) {
       cellsDropped++
     }
-    // Calculate the number of cells dropped for a hard drop
-    this.hardDropScore(cellsDropped - 1) // Subtract 1 since the last move didn't count
   }
 
   lock() {
@@ -87,14 +108,4 @@ export class Tetromino {
       }
     }
   }
-
-  softDropScore() {
-    // Add soft drop score implementation
-  }
-
-  hardDropScore(cellsDropped) {
-    // Add hard drop score implementation
-  }
-
-  // You can add other methods related to the Tetromino operation if needed
 }
