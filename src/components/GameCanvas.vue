@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
+import { handleKeyDown } from '@/controls.js'
 import { CANVAS_WIDTH, CANVAS_HEIGHT, BLOCK_SIZE } from '@/constants/board.js'
 import { useGameStore } from '@/stores/game.js'
 
@@ -66,6 +67,11 @@ function gameLoop(ctx, timestamp) {
 onMounted(() => {
   const ctx = canvas.value.getContext('2d')
   gameLoop(ctx, 0) // Pass 0 as the initial timestamp
+  window.addEventListener('keydown', handleKeyDown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown)
 })
 </script>
 
