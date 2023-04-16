@@ -18,16 +18,17 @@ export class Tetromino {
     this.type = getRandomTetrominoType()
     this.data = TETROMINOS[this.type]
     this.rotation = 0
+    this.shape = this.data.shape // Change this line
     this.position = { x: Math.floor(BOARD_COLS / 2) - 1, y: 0 }
   }
 
   rotate() {
-    const rotatedData = getRotatedMatrix(this.data[this.rotation])
     const nextRotation = (this.rotation + 1) % 4
+    const rotatedShape = getRotatedMatrix(this.shape[nextRotation])
 
-    if (!this.checkCollision(0, 0, rotatedData)) {
+    if (!this.checkCollision(0, 0, rotatedShape)) {
       this.rotation = nextRotation
-      this.data = rotatedData
+      this.shape = this.data.shape[this.rotation]
     }
   }
 

@@ -19,8 +19,8 @@ export const useGameStore = defineStore('game', () => {
   const state = reactive(createInitialState())
 
   function startGame() {
-    state.currentTetromino = new Tetromino(state.board.grid)
-    state.nextTetromino = new Tetromino(state.board.grid)
+    state.currentTetromino = new Tetromino(state.board)
+    state.nextTetromino = new Tetromino(state.board)
     state.stage = 'playing'
   }
 
