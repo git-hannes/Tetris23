@@ -46,24 +46,17 @@ export class Tetromino {
     const nextRotation = (this.rotation + 1) % 4
     const rotatedShape = getRotatedMatrix(this.data.shape, nextRotation)
 
-    if (
-      !this.checkCollision(0, 0, rotatedShape) ||
-      this.tryWallKicks(nextRotation, rotatedShape)
-    ) {
+    if (this.tryWallKick(this.rotation, nextRotation, rotatedShape)) {
       this.rotation = nextRotation
       this.shape = rotatedShape
     }
   }
 
-  tryWallKicks(nextRotation, rotatedShape) {
-    const wallKickData =
-      this.type === 'I' ? WALL_KICK_DATA.I : WALL_KICK_DATA.default
-    const currentOffsets = wallKickData[this.rotation]
-    const nextOffsets = wallKickData[nextRotation]
-
-    for (let i = 0; i < currentOffsets.length; i++) {
-      const offsetX = nextOffsets[i].x - currentOffsets[i].x
-      const offsetY = nextOffsets[i].y - currentOffsets[i].y
+  tryWallKick(prevRotation, nextRotation, rotatedShape) {
+    const kicks = WALL_KICK_DATA[this.type][prevRotation * 2 + nextRotation]
+    for (const kick of kicks) {
+      const offsetX = kick[0]
+      const offsetY = kick[1]
 
       if (!this.checkCollision(offsetX, offsetY, rotatedShape)) {
         this.position.x += offsetX
@@ -71,7 +64,6 @@ export class Tetromino {
         return true
       }
     }
-
     return false
   }
 
