@@ -16,7 +16,7 @@ export class Tetromino {
     this.gameStore = useGameStore()
   }
 
-  move(direction) {
+  move(direction, isHardDrop = false) {
     const { x, y } = DIRECTIONS[direction]
 
     if (!this.checkCollision(x, y)) {
@@ -24,7 +24,7 @@ export class Tetromino {
       this.position.y += y
       return true
     } else {
-      if (direction === 'DOWN') {
+      if (direction === 'DOWN' && !isHardDrop) {
         this.lock()
         this.gameStore.spawnNewTetromino()
       }
@@ -34,7 +34,7 @@ export class Tetromino {
 
   hardDrop() {
     let cellsDropped = 0
-    while (this.move('DOWN')) {
+    while (this.move('DOWN', true)) {
       cellsDropped++
     }
     this.lock()
