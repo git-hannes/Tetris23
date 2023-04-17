@@ -10,7 +10,6 @@ import { useGameStore } from '@/stores/game.js'
 
 const GAME = useGameStore()
 let canvas = ref(null)
-let lastDropTime = 0
 
 function drawBoard(ctx) {
   const board = GAME.state.board
@@ -61,9 +60,9 @@ function gameLoop(ctx, timestamp) {
     drawTetromino(ctx)
 
     const fallingSpeed = 1000 - GAME.state.level * 50 // Change this formula if needed
-    if (timestamp - lastDropTime > fallingSpeed) {
+    if (timestamp - GAME.tetromino.lastDropTime > fallingSpeed) {
       TETROMINO.move('DOWN')
-      lastDropTime = timestamp
+      GAME.tetromino.lastDropTime = timestamp // Update this line
     }
   }
 

@@ -20,13 +20,15 @@ export const useGameStore = defineStore('game', () => {
 
   const tetromino = reactive({
     current: null,
-    next: null
+    next: null,
+    lastDropTime: 0
   })
 
   function startGame() {
     state.stage = 'playing'
     tetromino.current = new Tetromino(state.board)
     tetromino.next = new Tetromino(state.board)
+    tetromino.lastDropTime = performance.now() // Update this line
   }
 
   function resetGame() {
