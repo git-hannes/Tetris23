@@ -9,6 +9,13 @@ export function handleKeyDown(event) {
     return
   }
 
+  if (GAME.state.stage === 'after' && event.code === 'Enter') {
+    event.preventDefault()
+    GAME.resetGame()
+    GAME.startGame()
+    return
+  }
+
   if (GAME.state.stage !== 'playing') return
 
   switch (event.code) {

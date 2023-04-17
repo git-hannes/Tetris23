@@ -87,7 +87,7 @@ onUnmounted(() => {
     <ScreenOverlay v-if="GAME.state.stage === 'after'">
       <p>
         <span class="text-3xl">Game Over</span> <br />Press
-        <span class="bg-indigo-500 px-2">SPACE</span> to start
+        <span class="bg-orange-500 px-2">ENTER</span> to start
       </p>
     </ScreenOverlay>
     <canvas id="boardCanvas" ref="canvas" :width="CANVAS_WIDTH" :height="CANVAS_HEIGHT"></canvas>
