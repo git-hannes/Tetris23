@@ -27,7 +27,3 @@ export function getRotatedMatrix(matrix, rotations) {
 
   return result
 }
-
-/*
- * tetromino.js helpers end
- */
