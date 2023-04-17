@@ -7,3 +7,9 @@ export const CANVAS_COLOR = '#11111'
 export const BLOCK_SIZE = CANVAS_WIDTH / COLS
 
 export const LOCK_DELAY = 500
+
+export const DIRECTIONS = {
+  LEFT: { x: -1, y: 0 },
+  RIGHT: { x: 1, y: 0 },
+  DOWN: { x: 0, y: 1 }
+}
