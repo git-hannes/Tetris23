@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { Board } from '@/logic/board.js'
 import { Tetromino } from '@/logic/tetromino.js'
+import { COLS, ROWS } from '@/constants/board.js'
 
 function createInitialState() {
   return {
@@ -10,7 +11,7 @@ function createInitialState() {
     score: 0,
     level: 0,
     lines: 0,
-    board: new Board(20, 10)
+    board: new Board(ROWS, COLS)
   }
 }
 

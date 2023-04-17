@@ -1,5 +1,5 @@
 import TETROMINOS from '@/constants/tetrominos.js'
-import { BOARD_ROWS, BOARD_COLS, LOCK_DELAY } from '@/constants/board.js'
+import { ROWS, COLS, LOCK_DELAY } from '@/constants/board.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
 
 import { useGameStore } from '@/stores/game.js'
@@ -41,7 +41,7 @@ export class Tetromino {
     this.data = TETROMINOS[this.type]
     this.rotation = 0
     this.shape = getRotatedMatrix(this.data.shape, this.rotation) // Initialize the shape with the rotated matrix
-    this.position = { x: Math.floor(BOARD_COLS / 2) - 1, y: 0 }
+    this.position = { x: Math.floor(COLS / 2) - 1, y: 0 }
     this.gameStore = useGameStore()
   }
 
