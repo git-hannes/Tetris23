@@ -1,7 +1,7 @@
 import TETROMINOS from '@/constants/shapes.js'
 import { DIRECTIONS, INITIAL_POSITION } from '@/constants/misc.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
-import { getRandomTetrominoType, getRotatedMatrix } from '@/logic/utils.js'
+import { getRandomTetrominoType, getRotatedMatrix } from '@/game/utils.js'
 
 import { useGameStore } from '@/stores'
 
