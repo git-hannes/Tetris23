@@ -1,10 +1,8 @@
 import { BLOCK_SIZE as BS } from '@/constants/misc.js'
 import { Ghost } from '@/game/tetromino.js'
 import { drawCell } from '@/game/utils.js'
-import { useGameStore, useSettingsStore } from '@/stores'
 
-export function drawBoard(ctx) {
-  const GAME = useGameStore()
+export function drawBoard(ctx, GAME) {
   const board = GAME.state.board
   for (let row = 0; row < board.rows; row++) {
     for (let col = 0; col < board.cols; col++) {
@@ -14,11 +12,7 @@ export function drawBoard(ctx) {
   }
 }
 
-export function drawTetromino(ctx) {
-  const GAME = useGameStore()
-  const TETROMINO = GAME.tetromino.current
-  const SHAPE = TETROMINO.shape
-
+export function drawTetromino(ctx, TETROMINO, SHAPE) {
   for (let row = 0; row < SHAPE.length; row++) {
     for (let col = 0; col < SHAPE[row].length; col++) {
       if (SHAPE[row][col]) {
@@ -33,33 +27,7 @@ export function drawTetromino(ctx) {
   }
 }
 
-export function drawGhostOutline(ctx, x, y, row, col, shape) {
-  ctx.beginPath()
-
-  if (row === 0 || !shape[row - 1][col]) {
-    ctx.moveTo(x, y)
-    ctx.lineTo(x + BS, y)
-  }
-  if (row === shape.length - 1 || !shape[row + 1][col]) {
-    ctx.moveTo(x, y + BS)
-    ctx.lineTo(x + BS, y + BS)
-  }
-  if (col === 0 || !shape[row][col - 1]) {
-    ctx.moveTo(x, y)
-    ctx.lineTo(x, y + BS)
-  }
-  if (col === shape[row].length - 1 || !shape[row][col + 1]) {
-    ctx.moveTo(x + BS, y)
-    ctx.lineTo(x + BS, y + BS)
-  }
-
-  ctx.stroke()
-}
-
-export function drawGhost(ctx, TETROMINO) {
-  const GAME = useGameStore()
-  const SETTINGS = useSettingsStore()
-
+export function drawGhost(ctx, GAME, TETROMINO, SETTINGS) {
   if (!SETTINGS.showGhostPiece || GAME.state.stage !== 'playing') return
 
   const ghost = new Ghost(TETROMINO, GAME.state.board)
@@ -86,4 +54,27 @@ export function drawGhost(ctx, TETROMINO) {
   }
 
   ctx.globalAlpha = 1
+}
+
+export function drawGhostOutline(ctx, x, y, row, col, shape) {
+  ctx.beginPath()
+
+  if (row === 0 || !shape[row - 1][col]) {
+    ctx.moveTo(x, y)
+    ctx.lineTo(x + BS, y)
+  }
+  if (row === shape.length - 1 || !shape[row + 1][col]) {
+    ctx.moveTo(x, y + BS)
+    ctx.lineTo(x + BS, y + BS)
+  }
+  if (col === 0 || !shape[row][col - 1]) {
+    ctx.moveTo(x, y)
+    ctx.lineTo(x, y + BS)
+  }
+  if (col === shape[row].length - 1 || !shape[row][col + 1]) {
+    ctx.moveTo(x + BS, y)
+    ctx.lineTo(x + BS, y + BS)
+  }
+
+  ctx.stroke()
 }

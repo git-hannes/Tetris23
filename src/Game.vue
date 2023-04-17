@@ -5,18 +5,19 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from "@/constants/misc.js";
 import { drawBoard, drawTetromino, drawGhost } from "@/game/draw.js";
 
 import ScreenOverlay from "@/components/ScreenOverlay.vue";
-import { useGameStore } from "@/stores";
+import { useGameStore, useSettingsStore } from "@/stores";
 
 const GAME = useGameStore();
+const SETTINGS = useSettingsStore();
 let canvas = ref(null);
 
 function gameLoop(ctx, timestamp) {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  drawBoard(ctx);
+  drawBoard(ctx, GAME);
 
   if (GAME.state.stage === "playing") {
-    drawTetromino(ctx);
-    drawGhost(ctx, GAME.tetromino.current);
+    drawTetromino(ctx, GAME.tetromino.current, GAME.tetromino.current.shape);
+    drawGhost(ctx, GAME, GAME.tetromino.current, SETTINGS);
 
     const fallingSpeed = 1000 - GAME.state.level * 50;
     if (timestamp - GAME.tetromino.lastDropTime > fallingSpeed) {
