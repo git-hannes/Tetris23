@@ -12,17 +12,21 @@ const SETTINGS = useSettingsStore();
 let canvas = ref(null);
 
 function gameLoop(ctx, timestamp) {
+  // I probably shouldn't be doing this inside the game loop, but declaring it
+  // outside the loop causes a bug
+  const TETROMINO = GAME.tetromino;
+
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   drawBoard(ctx, GAME);
 
   if (GAME.state.stage === "playing") {
-    drawTetromino(ctx, GAME.tetromino.current, GAME.tetromino.current.shape);
-    drawGhost(ctx, GAME, GAME.tetromino.current, SETTINGS);
+    drawTetromino(ctx, TETROMINO.current, TETROMINO.current.shape);
+    drawGhost(ctx, GAME, TETROMINO.current, SETTINGS);
 
     const fallingSpeed = 1000 - GAME.state.level * 50;
-    if (timestamp - GAME.tetromino.lastDropTime > fallingSpeed) {
-      GAME.tetromino.current.move("DOWN");
-      GAME.tetromino.lastDropTime = timestamp;
+    if (timestamp - TETROMINO.lastDropTime > fallingSpeed) {
+      TETROMINO.current.move("DOWN");
+      TETROMINO.lastDropTime = timestamp;
     }
   }
 
