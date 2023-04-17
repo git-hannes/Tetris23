@@ -14,17 +14,21 @@ const GAME = useGameStore();
 const SETTINGS = useSettingsStore();
 let canvas = ref(null);
 
+function drawCell(ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x * BS, y * BS, BS, BS);
+
+  // draw grid lines
+  ctx.strokeStyle = "#444444";
+  ctx.strokeRect(x * BS, y * BS, BS, BS);
+}
+
 function drawBoard(ctx) {
   const board = GAME.state.board;
   for (let row = 0; row < board.rows; row++) {
     for (let col = 0; col < board.cols; col++) {
       const cell = board.boardMatrix[row][col];
-      ctx.fillStyle = cell ? cell.color : "black";
-      ctx.fillRect(col * BS, row * BS, BS, BS);
-
-      // draw grid lines
-      ctx.strokeStyle = "#444444";
-      ctx.strokeRect(col * BS, row * BS, BS, BS);
+      drawCell(ctx, col, row, cell ? cell.color : "black");
     }
   }
 }
@@ -36,29 +40,44 @@ function drawTetromino(ctx) {
   for (let row = 0; row < SHAPE.length; row++) {
     for (let col = 0; col < SHAPE[row].length; col++) {
       if (SHAPE[row][col]) {
-        ctx.fillStyle = TETROMINO.data.color;
-        ctx.fillRect(
-          (TETROMINO.position.x + col) * BS,
-          (TETROMINO.position.y + row) * BS,
-          BS,
-          BS
-        );
-        ctx.strokeStyle = "black";
-        ctx.strokeRect(
-          (TETROMINO.position.x + col) * BS,
-          (TETROMINO.position.y + row) * BS,
-          BS,
-          BS
+        drawCell(
+          ctx,
+          TETROMINO.position.x + col,
+          TETROMINO.position.y + row,
+          TETROMINO.data.color
         );
       }
     }
   }
 }
 
-function drawGhost(ctx) {
+function drawGhostOutline(ctx, x, y, row, col, shape) {
+  ctx.beginPath();
+
+  if (row === 0 || !shape[row - 1][col]) {
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + BS, y);
+  }
+  if (row === shape.length - 1 || !shape[row + 1][col]) {
+    ctx.moveTo(x, y + BS);
+    ctx.lineTo(x + BS, y + BS);
+  }
+  if (col === 0 || !shape[row][col - 1]) {
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y + BS);
+  }
+  if (col === shape[row].length - 1 || !shape[row][col + 1]) {
+    ctx.moveTo(x + BS, y);
+    ctx.lineTo(x + BS, y + BS);
+  }
+
+  ctx.stroke();
+}
+
+function drawGhost(ctx, TETROMINO) {
   if (!SETTINGS.showGhostPiece || GAME.state.stage !== "playing") return;
 
-  const ghost = new Ghost(GAME.tetromino.current, GAME.state.board);
+  const ghost = new Ghost(TETROMINO, GAME.state.board);
   const SHAPE = ghost.shape;
 
   // Move the ghost down until it collides
@@ -66,8 +85,8 @@ function drawGhost(ctx) {
     ghost.position.y += 1;
   }
 
-  ctx.globalAlpha = 0.5; // Set opacity for the ghost piece
-  ctx.strokeStyle = "#ddd"; // or ghost.data.color
+  ctx.globalAlpha = 0.5;
+  ctx.strokeStyle = "#ddd";
   ctx.lineWidth = 1;
 
   for (let row = 0; row < SHAPE.length; row++) {
@@ -76,26 +95,7 @@ function drawGhost(ctx) {
         const x = (ghost.position.x + col) * BS;
         const y = (ghost.position.y + row) * BS;
 
-        ctx.beginPath();
-
-        if (row === 0 || !SHAPE[row - 1][col]) {
-          ctx.moveTo(x, y);
-          ctx.lineTo(x + BS, y);
-        }
-        if (row === SHAPE.length - 1 || !SHAPE[row + 1][col]) {
-          ctx.moveTo(x, y + BS);
-          ctx.lineTo(x + BS, y + BS);
-        }
-        if (col === 0 || !SHAPE[row][col - 1]) {
-          ctx.moveTo(x, y);
-          ctx.lineTo(x, y + BS);
-        }
-        if (col === SHAPE[row].length - 1 || !SHAPE[row][col + 1]) {
-          ctx.moveTo(x + BS, y);
-          ctx.lineTo(x + BS, y + BS);
-        }
-
-        ctx.stroke();
+        drawGhostOutline(ctx, x, y, row, col, SHAPE);
       }
     }
   }
@@ -110,10 +110,10 @@ function gameLoop(ctx, timestamp) {
   drawBoard(ctx);
 
   if (GAME.state.stage === "playing") {
-    drawTetromino(ctx);
-    drawGhost(ctx); // Add this line to draw the ghost tetromino
+    drawTetromino(ctx, TETROMINO);
+    drawGhost(ctx, TETROMINO);
 
-    const fallingSpeed = 1000 - GAME.state.level * 50; // Change this formula if needed
+    const fallingSpeed = 1000 - GAME.state.level * 50;
     if (timestamp - GAME.tetromino.lastDropTime > fallingSpeed) {
       TETROMINO.move("DOWN");
       GAME.tetromino.lastDropTime = timestamp;
