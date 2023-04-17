@@ -1,5 +1,5 @@
-import TETROMINOS from '@/constants/tetrominos.js'
-import { ROWS, COLS, LOCK_DELAY } from '@/constants/board.js'
+import TETROMINOS from '@/constants/shapes.js'
+import { ROWS, COLS, LOCK_DELAY } from '@/constants/misc.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
 
 import { useGameStore } from '@/stores/game.js'

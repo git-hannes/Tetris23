@@ -5,7 +5,7 @@ import {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
   BLOCK_SIZE as BS
-} from '@/constants/board.js'
+} from '@/constants/misc.js'
 import { useGameStore } from '@/stores/game.js'
 
 const GAME = useGameStore()

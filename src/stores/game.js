@@ -3,7 +3,7 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { Board } from '@/logic/board.js'
 import { Tetromino } from '@/logic/tetromino.js'
-import { COLS, ROWS } from '@/constants/board.js'
+import { COLS, ROWS } from '@/constants/misc.js'
 
 function createInitialState() {
   return {
