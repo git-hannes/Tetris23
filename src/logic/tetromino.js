@@ -116,3 +116,14 @@ export class Tetromino {
     }
   }
 }
+
+export class Ghost extends Tetromino {
+  constructor(currentTetromino, board) {
+    super(board)
+    this.type = currentTetromino.type
+    this.data = currentTetromino.data
+    this.rotation = currentTetromino.rotation
+    this.shape = currentTetromino.shape
+    this.position = { ...currentTetromino.position }
+  }
+}

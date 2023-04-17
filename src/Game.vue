@@ -3,11 +3,15 @@ import { onMounted, ref, onUnmounted } from "vue";
 import { handleKeyDown } from "@/controls.js";
 import { CANVAS_WIDTH, CANVAS_HEIGHT, BLOCK_SIZE as BS } from "@/constants/misc.js";
 
+import { Ghost } from "@/logic/tetromino.js";
+
 import ScreenOverlay from "@/components/ScreenOverlay.vue";
 
 import { useGameStore } from "@/stores/game.js";
+import { useSettingsStore } from "@/stores/settings.js";
 
 const GAME = useGameStore();
+const SETTINGS = useSettingsStore();
 let canvas = ref(null);
 
 function drawBoard(ctx) {
@@ -17,7 +21,9 @@ function drawBoard(ctx) {
       const cell = board.boardMatrix[row][col];
       ctx.fillStyle = cell ? cell.color : "black";
       ctx.fillRect(col * BS, row * BS, BS, BS);
-      ctx.strokeStyle = "#101010";
+
+      // draw grid lines
+      ctx.strokeStyle = "#444444";
       ctx.strokeRect(col * BS, row * BS, BS, BS);
     }
   }
@@ -49,6 +55,42 @@ function drawTetromino(ctx) {
   }
 }
 
+function drawGhost(ctx) {
+  if (!SETTINGS.showGhostPiece || GAME.state.stage !== "playing") return;
+
+  const ghost = new Ghost(GAME.tetromino.current, GAME.state.board);
+  const SHAPE = ghost.shape;
+
+  // Move the ghost down until it collides
+  while (!ghost.checkCollision(0, 1)) {
+    ghost.position.y += 1;
+  }
+
+  // Draw the ghost tetromino
+  for (let row = 0; row < SHAPE.length; row++) {
+    for (let col = 0; col < SHAPE[row].length; col++) {
+      if (SHAPE[row][col]) {
+        ctx.fillStyle = ghost.data.color;
+        ctx.globalAlpha = 0.4;
+        ctx.fillRect(
+          (ghost.position.x + col) * BS,
+          (ghost.position.y + row) * BS,
+          BS,
+          BS
+        );
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(
+          (ghost.position.x + col) * BS,
+          (ghost.position.y + row) * BS,
+          BS,
+          BS
+        );
+      }
+    }
+  }
+}
+
 function gameLoop(ctx, timestamp) {
   const TETROMINO = GAME.tetromino.current;
 
@@ -57,6 +99,7 @@ function gameLoop(ctx, timestamp) {
 
   if (GAME.state.stage === "playing") {
     drawTetromino(ctx);
+    drawGhost(ctx); // Add this line to draw the ghost tetromino
 
     const fallingSpeed = 1000 - GAME.state.level * 50; // Change this formula if needed
     if (timestamp - GAME.tetromino.lastDropTime > fallingSpeed) {
