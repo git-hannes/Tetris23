@@ -6,15 +6,16 @@ import { useGameStore } from '@/stores/game.js'
 
 const game = useGameStore()
 let canvas = ref(null)
+let lastDropTime = 0
 
 function drawBoard(ctx) {
   const board = game.state.board
   for (let row = 0; row < board.rows; row++) {
     for (let col = 0; col < board.cols; col++) {
       const cell = board.boardMatrix[row][col]
-      ctx.fillStyle = cell ? cell.color : 'white'
+      ctx.fillStyle = cell ? cell.color : 'black'
       ctx.fillRect(col * BLOCK_SIZE, row * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
-      ctx.strokeStyle = 'black'
+      ctx.strokeStyle = '#101010'
       ctx.strokeRect(col * BLOCK_SIZE, row * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
     }
   }
@@ -45,8 +46,6 @@ function drawTetromino(ctx) {
     }
   }
 }
-
-let lastDropTime = 0
 
 function gameLoop(ctx, timestamp) {
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
