@@ -1,38 +1,9 @@
 import TETROMINOS from '@/constants/shapes.js'
-import { ROWS, COLS, LOCK_DELAY } from '@/constants/misc.js'
+import { ROWS, COLS, LOCK_DELAY, DIRECTIONS } from '@/constants/misc.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
+import { getRandomTetrominoType, getRotatedMatrix } from '@/logic/utils.js'
 
 import { useGameStore } from '@/stores/game.js'
-
-function getRandomTetrominoType() {
-  const types = Object.keys(TETROMINOS)
-  return types[Math.floor(Math.random() * types.length)]
-}
-
-function getRotatedMatrix(matrix, rotations) {
-  let result = matrix
-
-  for (let r = 0; r < rotations; r++) {
-    const N = result.length - 1
-    const temp = Array.from({ length: result.length }, () =>
-      Array(result.length).fill(0)
-    )
-    for (let i = 0; i <= N; i++) {
-      for (let j = 0; j <= N; j++) {
-        temp[i][j] = result[N - j][i]
-      }
-    }
-    result = temp
-  }
-
-  return result
-}
-
-const DIRECTION = {
-  LEFT: { x: -1, y: 0 },
-  RIGHT: { x: 1, y: 0 },
-  DOWN: { x: 0, y: 1 }
-}
 
 export class Tetromino {
   constructor(board) {
@@ -46,7 +17,7 @@ export class Tetromino {
   }
 
   move(direction) {
-    const { x, y } = DIRECTION[direction]
+    const { x, y } = DIRECTIONS[direction]
 
     if (!this.checkCollision(x, y)) {
       this.position.x += x
