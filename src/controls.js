@@ -1,4 +1,4 @@
-import { useGameStore } from '@/stores/game.js'
+import { useGameStore } from '@/stores'
 
 export function handleKeyDown(event) {
   const GAME = useGameStore()

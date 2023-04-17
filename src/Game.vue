@@ -2,13 +2,10 @@
 import { onMounted, ref, onUnmounted } from "vue";
 import { handleKeyDown } from "@/controls.js";
 import { CANVAS_WIDTH, CANVAS_HEIGHT, BLOCK_SIZE as BS } from "@/constants/misc.js";
-
 import { Ghost } from "@/logic/tetromino.js";
 
 import ScreenOverlay from "@/components/ScreenOverlay.vue";
-
-import { useGameStore } from "@/stores/game.js";
-import { useSettingsStore } from "@/stores/settings.js";
+import { useGameStore, useSettingsStore } from "@/stores";
 
 const GAME = useGameStore();
 const SETTINGS = useSettingsStore();

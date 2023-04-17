@@ -1,15 +1,9 @@
 import TETROMINOS from '@/constants/shapes.js'
-import {
-  ROWS,
-  COLS,
-  LOCK_DELAY,
-  DIRECTIONS,
-  INITIAL_POSITION
-} from '@/constants/misc.js'
+import { DIRECTIONS, INITIAL_POSITION } from '@/constants/misc.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
 import { getRandomTetrominoType, getRotatedMatrix } from '@/logic/utils.js'
 
-import { useGameStore } from '@/stores/game.js'
+import { useGameStore } from '@/stores'
 
 export class Tetromino {
   constructor(board) {
