@@ -1,35 +1,32 @@
+// controls.js
 import { useGameStore } from '@/stores/game.js'
 
-export function handleKeyDown({ code }) {
+export function handleKeyDown(event) {
   const GAME = useGameStore()
-  const TETROMINO = GAME.tetromino.current
 
-  switch (code) {
+  if (event.code === 'Space' && GAME.state.stage !== 'playing') {
+    event.preventDefault()
+    GAME.startGame()
+  }
+
+  if (GAME.state.stage !== 'playing') return
+
+  switch (event.code) {
     case 'ArrowLeft':
-    case 'KeyA':
-      TETROMINO.move('LEFT')
+      event.preventDefault()
+      GAME.tetromino.current.move('LEFT')
       break
-
     case 'ArrowRight':
-    case 'KeyD':
-      TETROMINO.move('RIGHT')
+      event.preventDefault()
+      GAME.tetromino.current.move('RIGHT')
       break
-
     case 'ArrowDown':
-    case 'KeyS':
-      TETROMINO.move('DOWN')
+      event.preventDefault()
+      GAME.tetromino.current.move('DOWN')
       break
-
-    case 'Space':
-      TETROMINO.hardDrop()
-      break
-
     case 'ArrowUp':
-    case 'KeyW':
-      TETROMINO.rotate()
-      break
-
-    default:
+      event.preventDefault()
+      GAME.tetromino.current.rotate()
       break
   }
 }
