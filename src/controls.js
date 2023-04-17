@@ -1,4 +1,3 @@
-// controls.js
 import { useGameStore } from '@/stores/game.js'
 
 export function handleKeyDown(event) {
@@ -7,6 +6,7 @@ export function handleKeyDown(event) {
   if (event.code === 'Space' && GAME.state.stage !== 'playing') {
     event.preventDefault()
     GAME.startGame()
+    return
   }
 
   if (GAME.state.stage !== 'playing') return
@@ -27,6 +27,10 @@ export function handleKeyDown(event) {
     case 'ArrowUp':
       event.preventDefault()
       GAME.tetromino.current.rotate()
+      break
+    case 'Space':
+      event.preventDefault()
+      GAME.tetromino.current.hardDrop()
       break
   }
 }
