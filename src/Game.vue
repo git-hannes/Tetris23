@@ -12,8 +12,8 @@ const SETTINGS = useSettingsStore()
 let canvas = ref(null)
 
 function gameLoop(ctx, timestamp) {
-  // I probably shouldn't be doing this inside the game loop, but declaring it
-  // outside the loop causes a bug
+  // I probably shouldn't be doing this inside the game loop,
+  // but declaring it outside the loop causes a bug
   const TETROMINO = GAME.tetromino
 
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
