@@ -3,8 +3,7 @@ import { onMounted, ref, onUnmounted } from "vue";
 import { handleKeyDown } from "@/controls.js";
 import { CANVAS_WIDTH, CANVAS_HEIGHT, BLOCK_SIZE as BS } from "@/constants/misc.js";
 
-import StartScreen from "@/components/StartScreen.vue";
-import KillScreen from "@/components/KillScreen.vue";
+import ScreenOverlay from "@/components/ScreenOverlay.vue";
 
 import { useGameStore } from "@/stores/game.js";
 
@@ -82,8 +81,15 @@ onUnmounted(() => {
 
 <template>
   <div class="game-container relative mx-auto" :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }">
-    <StartScreen v-if="GAME.state.stage === 'before'" />
-    <KillScreen v-if="GAME.state.stage === 'after'" />
+    <ScreenOverlay v-if="GAME.state.stage === 'before'">
+      <p>Press <span class="bg-indigo-500 px-2">SPACE</span> to start</p>
+    </ScreenOverlay>
+    <ScreenOverlay v-if="GAME.state.stage === 'after'">
+      <p>
+        <span class="text-3xl">Game Over</span> <br />Press
+        <span class="bg-indigo-500 px-2">SPACE</span> to start
+      </p>
+    </ScreenOverlay>
     <canvas id="boardCanvas" ref="canvas" :width="CANVAS_WIDTH" :height="CANVAS_HEIGHT"></canvas>
   </div>
 </template>
