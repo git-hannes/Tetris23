@@ -59,7 +59,7 @@ function gameLoop(ctx, timestamp) {
     const fallingSpeed = 1000 - GAME.state.level * 50; // Change this formula if needed
     if (timestamp - GAME.tetromino.lastDropTime > fallingSpeed) {
       TETROMINO.move("DOWN");
-      GAME.tetromino.lastDropTime = timestamp; // Update this line
+      GAME.tetromino.lastDropTime = timestamp;
     }
   }
 
@@ -68,7 +68,7 @@ function gameLoop(ctx, timestamp) {
 
 onMounted(() => {
   const ctx = canvas.value.getContext("2d");
-  gameLoop(ctx, 0); // Pass 0 as the initial timestamp
+  gameLoop(ctx, 0);
   window.addEventListener("keydown", handleKeyDown);
 });
 
@@ -78,6 +78,16 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <StartScreen v-if="GAME.state.stage === 'before'" />
-  <canvas id="boardCanvas" ref="canvas" width="300" height="600"></canvas>
+  <div
+    class="game-container relative mx-auto"
+    :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
+  >
+    <StartScreen v-if="GAME.state.stage === 'before'" />
+    <canvas
+      id="boardCanvas"
+      ref="canvas"
+      :width="CANVAS_WIDTH"
+      :height="CANVAS_HEIGHT"
+    ></canvas>
+  </div>
 </template>
