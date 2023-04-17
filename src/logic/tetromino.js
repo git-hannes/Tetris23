@@ -87,6 +87,7 @@ export class Tetromino {
 
   lock() {
     const { x: posX, y: posY } = this.position
+
     for (let row = 0; row < this.shape.length; row++) {
       for (let col = 0; col < this.shape[row].length; col++) {
         if (this.shape[row][col]) {
@@ -96,6 +97,12 @@ export class Tetromino {
           }
         }
       }
+    }
+    const linesCleared = this.board.clearLines()
+
+    // Update game state based on the number of cleared lines (if needed)
+    if (linesCleared) {
+      // this.gameStore.updateScore(linesCleared)
     }
   }
 }
