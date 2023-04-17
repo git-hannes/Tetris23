@@ -38,6 +38,11 @@ export const useGameStore = defineStore('game', () => {
   function spawnNewTetromino() {
     tetromino.current = tetromino.next
     tetromino.next = new Tetromino(state.board)
+
+    // Check if the newly spawned Tetromino is colliding with the existing board matrix
+    if (tetromino.current.isColliding()) {
+      state.stage = 'after'
+    }
   }
 
   // Implement other game-related methods and actions here

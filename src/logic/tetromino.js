@@ -91,6 +91,10 @@ export class Tetromino {
     return false
   }
 
+  isColliding() {
+    return this.checkCollision(0, 0, this.shape)
+  }
+
   lock() {
     const { x: posX, y: posY } = this.position
 

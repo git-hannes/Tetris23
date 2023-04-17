@@ -3,7 +3,7 @@ import { useGameStore } from '@/stores/game.js'
 export function handleKeyDown(event) {
   const GAME = useGameStore()
 
-  if (event.code === 'Space' && GAME.state.stage !== 'playing') {
+  if (event.code === 'Space' && GAME.state.stage === 'before') {
     event.preventDefault()
     GAME.startGame()
     return
