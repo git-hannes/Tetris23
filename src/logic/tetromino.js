@@ -1,5 +1,11 @@
 import TETROMINOS from '@/constants/shapes.js'
-import { ROWS, COLS, LOCK_DELAY, DIRECTIONS } from '@/constants/misc.js'
+import {
+  ROWS,
+  COLS,
+  LOCK_DELAY,
+  DIRECTIONS,
+  INITIAL_POSITION
+} from '@/constants/misc.js'
 import WALL_KICK_DATA from '@/constants/wallKickData.js'
 import { getRandomTetrominoType, getRotatedMatrix } from '@/logic/utils.js'
 
@@ -12,7 +18,7 @@ export class Tetromino {
     this.data = TETROMINOS[this.type]
     this.rotation = 0
     this.shape = getRotatedMatrix(this.data.shape, this.rotation) // Initialize the shape with the rotated matrix
-    this.position = { x: Math.floor(COLS / 2) - 1, y: 0 }
+    this.position = { ...INITIAL_POSITION }
     this.gameStore = useGameStore()
   }
 

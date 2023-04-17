@@ -1,4 +1,4 @@
-// just raw import of old project
+// board
 export const ROWS = 20
 export const COLS = 10
 export const CANVAS_WIDTH = 300
@@ -13,3 +13,6 @@ export const DIRECTIONS = {
   RIGHT: { x: 1, y: 0 },
   DOWN: { x: 0, y: 1 }
 }
+
+// tetrominos
+export const INITIAL_POSITION = { x: Math.floor(COLS / 2) - 1, y: 0 }

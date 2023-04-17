@@ -10,15 +10,14 @@ export class Board {
   }
 
   clearLines() {
-    let linesCleared = 0
+    const initialRowCount = this.boardMatrix.length
+    this.boardMatrix = this.boardMatrix.filter(
+      (row) => !row.every((cell) => cell.value)
+    )
+    const linesCleared = initialRowCount - this.boardMatrix.length
 
-    for (let row = this.rows - 1; row >= 0; row--) {
-      if (this.boardMatrix[row].every((cell) => cell.value)) {
-        linesCleared++
-        this.boardMatrix.splice(row, 1)
-        this.boardMatrix.unshift(Array(this.cols).fill(0))
-        row++ // Check the same row index again, as it now contains the next row after splice
-      }
+    while (this.boardMatrix.length < initialRowCount) {
+      this.boardMatrix.unshift(Array(this.cols).fill(0))
     }
 
     return linesCleared
