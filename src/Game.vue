@@ -6,19 +6,11 @@ import { Ghost } from "@/logic/tetromino.js";
 
 import ScreenOverlay from "@/components/ScreenOverlay.vue";
 import { useGameStore, useSettingsStore } from "@/stores";
+import { drawCell } from "@/logic/utils.js";
 
 const GAME = useGameStore();
 const SETTINGS = useSettingsStore();
 let canvas = ref(null);
-
-function drawCell(ctx, x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x * BS, y * BS, BS, BS);
-
-  // draw grid lines
-  ctx.strokeStyle = "#444444";
-  ctx.strokeRect(x * BS, y * BS, BS, BS);
-}
 
 function drawBoard(ctx) {
   const board = GAME.state.board;

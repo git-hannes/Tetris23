@@ -1,7 +1,8 @@
 import TETROMINOS from '@/constants/shapes.js'
+import { BLOCK_SIZE as BS } from '@/constants/misc.js'
 
 /*
- * tetromino.js helpers
+ * tetromino helpers
  */
 
 export function getRandomTetrominoType() {
@@ -26,4 +27,16 @@ export function getRotatedMatrix(matrix, rotations) {
   }
 
   return result
+}
+
+/*
+ * drawing helpers
+ */
+export function drawCell(ctx, x, y, color) {
+  ctx.fillStyle = color
+  ctx.fillRect(x * BS, y * BS, BS, BS)
+
+  // draw grid lines
+  ctx.strokeStyle = '#444444'
+  ctx.strokeRect(x * BS, y * BS, BS, BS)
 }
