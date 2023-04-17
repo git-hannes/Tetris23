@@ -33,7 +33,11 @@ export function handleKeyDown(event) {
       break
     case 'ArrowUp':
       event.preventDefault()
-      GAME.tetromino.current.rotate()
+      GAME.tetromino.current.rotate(1) // Rotate clockwise
+      break
+    case 'KeyC':
+      event.preventDefault()
+      GAME.tetromino.current.rotate(-1) // Rotate counterclockwise
       break
     case 'Space':
       event.preventDefault()
