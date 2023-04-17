@@ -66,29 +66,41 @@ function drawGhost(ctx) {
     ghost.position.y += 1;
   }
 
-  // Draw the ghost tetromino
+  ctx.globalAlpha = 0.5; // Set opacity for the ghost piece
+  ctx.strokeStyle = "#ddd"; // or ghost.data.color
+  ctx.lineWidth = 1;
+
   for (let row = 0; row < SHAPE.length; row++) {
     for (let col = 0; col < SHAPE[row].length; col++) {
       if (SHAPE[row][col]) {
-        ctx.fillStyle = ghost.data.color;
-        ctx.globalAlpha = 0.4;
-        ctx.fillRect(
-          (ghost.position.x + col) * BS,
-          (ghost.position.y + row) * BS,
-          BS,
-          BS
-        );
-        ctx.globalAlpha = 1;
-        ctx.strokeStyle = "black";
-        ctx.strokeRect(
-          (ghost.position.x + col) * BS,
-          (ghost.position.y + row) * BS,
-          BS,
-          BS
-        );
+        const x = (ghost.position.x + col) * BS;
+        const y = (ghost.position.y + row) * BS;
+
+        ctx.beginPath();
+
+        if (row === 0 || !SHAPE[row - 1][col]) {
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + BS, y);
+        }
+        if (row === SHAPE.length - 1 || !SHAPE[row + 1][col]) {
+          ctx.moveTo(x, y + BS);
+          ctx.lineTo(x + BS, y + BS);
+        }
+        if (col === 0 || !SHAPE[row][col - 1]) {
+          ctx.moveTo(x, y);
+          ctx.lineTo(x, y + BS);
+        }
+        if (col === SHAPE[row].length - 1 || !SHAPE[row][col + 1]) {
+          ctx.moveTo(x + BS, y);
+          ctx.lineTo(x + BS, y + BS);
+        }
+
+        ctx.stroke();
       }
     }
   }
+
+  ctx.globalAlpha = 1;
 }
 
 function gameLoop(ctx, timestamp) {
