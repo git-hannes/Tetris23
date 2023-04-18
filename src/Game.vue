@@ -70,7 +70,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-2">
+  <div class="grid grid-cols-[3fr,1fr] gap-2">
     <div
       class="game-container relative"
       :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
