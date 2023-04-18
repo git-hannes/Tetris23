@@ -49,6 +49,16 @@ export const useGameStore = defineStore('game', () => {
 
   function resetGame() {
     Object.assign(state, createInitialState())
+    resetStats()
+  }
+
+  const resetStats = () => {
+    stats.level = 1
+    stats.lines = 0
+    stats.tetrisRate = 0
+    stats.lineClearCount = 0
+    stats.tetrisCount = 0
+    stats.drought = 0
   }
 
   function spawnNewTetromino() {
