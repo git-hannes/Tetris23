@@ -8,6 +8,7 @@ import { useGameStore, useSettingsStore } from '@/stores'
 
 import {
   GameOverScreen,
+  Level,
   LineCount,
   PauseScreen,
   ScreenOverlay,
@@ -95,6 +96,7 @@ onUnmounted(() => {
     <Sidebar>
       <Timer />
       <LineCount />
+      <Level />
     </Sidebar>
   </div>
 </template>

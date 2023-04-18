@@ -1,10 +1,10 @@
 <script setup>
-import Field from '@/components/Field.vue'
+import { Field } from '@/components'
 import { useGameStore } from '@/stores'
 
 const GAME = useGameStore()
 </script>
 
 <template>
-  <Field label="Lines" :value="GAME.state.lines" />
+  <Field label="Level" :value="GAME.state.level" />
 </template>

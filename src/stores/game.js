@@ -11,7 +11,7 @@ function createInitialState() {
     paused: false,
     timer: 0,
     score: 0,
-    level: 0,
+    level: 1,
     lines: 0,
     board: new Board(ROWS, COLS)
   }

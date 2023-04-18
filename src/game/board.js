@@ -25,6 +25,7 @@ export class Board {
 
     if (linesCleared) {
       this.GAME.state.lines += linesCleared
+      this.GAME.state.level = Math.floor(this.GAME.state.lines / 10)
     }
 
     return linesCleared

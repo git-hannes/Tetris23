@@ -1,5 +1,5 @@
 <script setup>
-import Field from '@/components/Field.vue'
+import { Field } from '@/components'
 import { computed } from 'vue'
 import { useGameStore } from '@/stores'
 
