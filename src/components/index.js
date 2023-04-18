@@ -1,8 +1,6 @@
 // src/components/index.js
 
 export { default as Field } from './fields/Field.vue'
-export { default as Level } from './fields/Level.vue'
-export { default as LineCount } from './fields/LineCount.vue'
 export { default as Timer } from './fields/Timer.vue'
 
 export { default as GameOverScreen } from './GameOverScreen.vue'

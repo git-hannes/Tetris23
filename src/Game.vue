@@ -8,8 +8,6 @@ import { useGameStore, useSettingsStore } from '@/stores'
 
 import {
   GameOverScreen,
-  Level,
-  LineCount,
   PauseScreen,
   ScreenOverlay,
   SettingsScreen,
@@ -99,9 +97,6 @@ onUnmounted(() => {
       ></canvas>
     </div>
     <Sidebar v-show="GAME.state.stage !== 'before'">
-      <Timer />
-      <LineCount />
-      <Level />
       <button @click="toggleCollapsible">
         <span v-show="!showCollapsible" class="material-icons text-xl"
           >more_horiz</span
@@ -111,9 +106,7 @@ onUnmounted(() => {
         >
       </button>
 
-      <div v-show="showCollapsible">
-        <Timer />
-      </div>
+      <div v-show="showCollapsible"></div>
     </Sidebar>
   </div>
 </template>
