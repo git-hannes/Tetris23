@@ -21,9 +21,10 @@ export const useGameStore = defineStore('game', () => {
     lines: 0,
     level: 1,
     score: 0,
-
     drought: 0,
-    tetrisRate: 0
+    tetrisRate: 0,
+    lineClearCount: 0,
+    tetrisCount: 0
   })
 
   const tetromino = reactive({
@@ -54,13 +55,28 @@ export const useGameStore = defineStore('game', () => {
     tetromino.current = tetromino.next
     tetromino.next = new Tetromino(state.board)
 
+    // Update drought
+    if (tetromino.current.type === 'I') {
+      stats.drought = 0
+    } else {
+      stats.drought++
+    }
+
     // Check if the newly spawned Tetromino is colliding with the existing board matrix
     if (tetromino.current.isColliding()) {
       state.stage = 'gameOver'
     }
   }
 
-  // Implement other game-related methods and actions here
+  function updateTetrisRate() {
+    if (stats.lineClearCount === 0) {
+      stats.tetrisRate = 0
+    } else {
+      stats.tetrisRate = Math.round(
+        (stats.tetrisCount / stats.lineClearCount) * 100
+      )
+    }
+  }
 
   return {
     state,
@@ -69,6 +85,7 @@ export const useGameStore = defineStore('game', () => {
     togglePause,
     resetGame,
     tetromino,
-    spawnNewTetromino
+    spawnNewTetromino,
+    updateTetrisRate
   }
 })

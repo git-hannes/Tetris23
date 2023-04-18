@@ -27,6 +27,9 @@ const toggleCollapsible = () => {
       >
     </button>
 
-    <div v-show="showCollapsible"></div>
+    <div v-show="showCollapsible">
+      <Field label="Drought" :value="GAME.stats.drought" />
+      <Field label="TRT" :value="GAME.stats.tetrisRate" />
+    </div>
   </div>
 </template>
