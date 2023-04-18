@@ -20,7 +20,7 @@ export function handleKeyDown(event, showSettings) {
   }
 
   // restart game
-  if (GAME.state.stage === 'after' && event.code === 'Enter') {
+  if (GAME.state.stage === 'gameOver' && event.code === 'Enter') {
     event.preventDefault()
     GAME.resetGame()
     GAME.startGame()
