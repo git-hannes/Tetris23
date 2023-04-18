@@ -4,7 +4,7 @@ import ScreenOverlay from '@/components/ScreenOverlay.vue'
 
 <template>
   <ScreenOverlay>
-    <h1 class="text-4xl">- Paused -</h1>
+    <h1 class="tetris-font text-3xl text-green-400 mt-8">Paused</h1>
     <p class="text-3xl">
       Press
       <span class="bg-indigo-500 px-2">P</span><br />

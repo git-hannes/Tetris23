@@ -7,3 +7,9 @@ body {
   display: grid;
   place-items: center;
 }
+
+@layer components {
+  .tetris-font {
+    font-family: 'Press Start 2P', cursive;
+  }
+}
