@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar p-2">
+  <div class="sidebar">
     <slot></slot>
   </div>
 </template>

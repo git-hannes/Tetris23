@@ -70,9 +70,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="grid grid-cols-2 gap-2">
     <div
-      class="game-container relative mx-auto"
+      class="game-container relative"
       :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
     >
       <StartScreen
@@ -93,7 +93,7 @@ onUnmounted(() => {
         :height="CANVAS_HEIGHT"
       ></canvas>
     </div>
-    <Sidebar>
+    <Sidebar v-show="GAME.state.stage !== 'before'">
       <Timer />
       <LineCount />
       <Level />
