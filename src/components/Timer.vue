@@ -1,4 +1,5 @@
 <script setup>
+import Field from '@/components/Field.vue'
 import { computed } from 'vue'
 import { useGameStore } from '@/stores'
 
@@ -15,7 +16,5 @@ const formattedTimer = computed(() => {
 </script>
 
 <template>
-  <div class="text-center">
-    <span class="text-xl">{{ formattedTimer }}</span>
-  </div>
+  <Field label="Time" :value="formattedTimer" />
 </template>

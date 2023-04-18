@@ -7,10 +7,12 @@ import { drawBoard, drawTetromino, drawGhost } from '@/game/draw.js'
 import { useGameStore, useSettingsStore } from '@/stores'
 
 import {
+  Field,
   GameOverScreen,
   PauseScreen,
   ScreenOverlay,
   SettingsScreen,
+  Sidebar,
   StartScreen,
   Timer
 } from '@/components'
@@ -90,8 +92,8 @@ onUnmounted(() => {
         :height="CANVAS_HEIGHT"
       ></canvas>
     </div>
-    <aside class="px-2">
+    <Sidebar>
       <Timer />
-    </aside>
+    </Sidebar>
   </div>
 </template>
