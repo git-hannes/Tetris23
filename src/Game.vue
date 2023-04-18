@@ -24,6 +24,11 @@ let canvas = ref(null)
 let lastAnimationFrameTime = 0
 
 const showSettings = ref(false)
+const showCollapsible = ref(false)
+
+const toggleCollapsible = () => {
+  showCollapsible.value = !showCollapsible.value
+}
 
 const toggleSettings = () => {
   showSettings.value = !showSettings.value
@@ -97,6 +102,18 @@ onUnmounted(() => {
       <Timer />
       <LineCount />
       <Level />
+      <button @click="toggleCollapsible">
+        <span v-show="!showCollapsible" class="material-icons text-xl"
+          >more_horiz</span
+        >
+        <span v-show="showCollapsible" class="material-icons text-xl"
+          >expand_less</span
+        >
+      </button>
+
+      <div v-show="showCollapsible">
+        <Timer />
+      </div>
     </Sidebar>
   </div>
 </template>
