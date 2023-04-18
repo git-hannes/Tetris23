@@ -10,7 +10,7 @@ import { ScreenOverlay } from '@/components'
     </h1>
     <p class="text-3xl">
       Press<br />
-      <span class="bg-indigo-500 px-2">ENTER</span><br />
+      <span class="bg-orange-500 px-2">ENTER</span><br />
       to start
     </p>
   </ScreenOverlay>
