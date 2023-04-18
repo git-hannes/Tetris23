@@ -2,6 +2,7 @@
 
 export { default as Field } from './Field.vue'
 export { default as GameOverScreen } from './GameOverScreen.vue'
+export { default as LineCount } from './LineCount.vue'
 export { default as PauseScreen } from './PauseScreen.vue'
 export { default as ScreenOverlay } from './ScreenOverlay.vue'
 export { default as SettingsScreen } from './SettingsScreen.vue'

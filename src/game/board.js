@@ -1,8 +1,11 @@
+import { useGameStore } from '@/stores/game'
+
 export class Board {
   constructor(rows, cols) {
     this.rows = rows
     this.cols = cols
     this.boardMatrix = this.createEmptyBoard()
+    this.GAME = useGameStore()
   }
 
   createEmptyBoard() {
@@ -18,6 +21,10 @@ export class Board {
 
     while (this.boardMatrix.length < initialRowCount) {
       this.boardMatrix.unshift(Array(this.cols).fill(0))
+    }
+
+    if (linesCleared) {
+      this.GAME.state.lines += linesCleared
     }
 
     return linesCleared

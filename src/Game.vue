@@ -7,8 +7,8 @@ import { drawBoard, drawTetromino, drawGhost } from '@/game/draw.js'
 import { useGameStore, useSettingsStore } from '@/stores'
 
 import {
-  Field,
   GameOverScreen,
+  LineCount,
   PauseScreen,
   ScreenOverlay,
   SettingsScreen,
@@ -94,6 +94,7 @@ onUnmounted(() => {
     </div>
     <Sidebar>
       <Timer />
+      <LineCount />
     </Sidebar>
   </div>
 </template>
