@@ -4,13 +4,15 @@ import { handleKeyDown } from '@/controls.js'
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from '@/constants/misc.js'
 import { drawBoard, drawTetromino, drawGhost } from '@/game/draw.js'
 
-import ScreenOverlay from '@/components/ScreenOverlay.vue'
-import StartScreen from '@/components/StartScreen.vue'
-import PauseScreen from '@/components/PauseScreen.vue'
 import { useGameStore, useSettingsStore } from '@/stores'
 
-import SettingsScreen from '@/components/SettingsScreen.vue'
-import GameOverScreen from '@/components/GameOverScreen.vue'
+import {
+  GameOverScreen,
+  PauseScreen,
+  ScreenOverlay,
+  SettingsScreen,
+  StartScreen
+} from '@/components'
 
 const GAME = useGameStore()
 const SETTINGS = useSettingsStore()

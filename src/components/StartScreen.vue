@@ -1,5 +1,5 @@
 <script setup>
-import ScreenOverlay from '@/components/ScreenOverlay.vue'
+import { ScreenOverlay } from '@/components'
 </script>
 
 <template>
