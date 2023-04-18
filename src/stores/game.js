@@ -28,7 +28,7 @@ export const useGameStore = defineStore('game', () => {
     state.stage = 'playing'
     tetromino.current = new Tetromino(state.board)
     tetromino.next = new Tetromino(state.board)
-    tetromino.lastDropTime = performance.now() // Update this line
+    tetromino.lastDropTime = performance.now()
   }
 
   function resetGame() {
