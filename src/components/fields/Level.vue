@@ -6,5 +6,5 @@ const GAME = useGameStore()
 </script>
 
 <template>
-  <Field label="Level" :value="GAME.state.level" />
+  <Field label="Level" :value="GAME.stats.level" />
 </template>

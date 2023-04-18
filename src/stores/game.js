@@ -10,15 +10,21 @@ function createInitialState() {
     stage: 'before', // 'before' | 'playing' | 'gameOver'
     paused: false,
     timer: 0,
-    score: 0,
-    level: 1,
-    lines: 0,
     board: new Board(ROWS, COLS)
   }
 }
 
 export const useGameStore = defineStore('game', () => {
   const state = reactive(createInitialState())
+
+  const stats = reactive({
+    lines: 0,
+    level: 1,
+    score: 0,
+
+    drought: 0,
+    tetrisRate: 0
+  })
 
   const tetromino = reactive({
     current: null,
@@ -58,6 +64,7 @@ export const useGameStore = defineStore('game', () => {
 
   return {
     state,
+    stats,
     startGame,
     togglePause,
     resetGame,

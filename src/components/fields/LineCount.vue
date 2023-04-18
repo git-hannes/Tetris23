@@ -6,5 +6,5 @@ const GAME = useGameStore()
 </script>
 
 <template>
-  <Field label="Lines" :value="GAME.state.lines" />
+  <Field label="Lines" :value="GAME.stats.lines" />
 </template>

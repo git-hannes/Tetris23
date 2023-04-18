@@ -49,7 +49,7 @@ function gameLoop(ctx, timestamp) {
     drawTetromino(ctx, TETROMINO.current, TETROMINO.current.shape)
     drawGhost(ctx, GAME, TETROMINO.current, SETTINGS)
 
-    const fallingSpeed = 1000 - GAME.state.level * 50
+    const fallingSpeed = 1000 - GAME.stats.level * 50
     if (timestamp - TETROMINO.lastDropTime > fallingSpeed) {
       TETROMINO.current.move('DOWN')
       TETROMINO.lastDropTime = timestamp
