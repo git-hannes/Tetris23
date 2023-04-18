@@ -11,12 +11,14 @@ import {
   PauseScreen,
   ScreenOverlay,
   SettingsScreen,
-  StartScreen
+  StartScreen,
+  Timer
 } from '@/components'
 
 const GAME = useGameStore()
 const SETTINGS = useSettingsStore()
 let canvas = ref(null)
+let lastAnimationFrameTime = 0
 
 const showSettings = ref(false)
 
@@ -25,12 +27,17 @@ const toggleSettings = () => {
 }
 
 function gameLoop(ctx, timestamp) {
+  const deltaTime = timestamp - lastAnimationFrameTime
+  lastAnimationFrameTime = timestamp
+
   const TETROMINO = GAME.tetromino
 
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
   drawBoard(ctx, GAME)
 
   if (GAME.state.stage === 'playing' && !GAME.state.paused) {
+    GAME.state.timer += deltaTime
+
     drawTetromino(ctx, TETROMINO.current, TETROMINO.current.shape)
     drawGhost(ctx, GAME, TETROMINO.current, SETTINGS)
 
@@ -60,27 +67,31 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="game-container relative mx-auto"
-    :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
-  >
-    <StartScreen
-      v-if="GAME.state.stage === 'before'"
-      @openSettings="toggleSettings"
-    />
-    <PauseScreen v-if="GAME.state.paused" @openSettings="toggleSettings" />
+  <div class="flex">
+    <div
+      class="game-container relative mx-auto"
+      :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
+    >
+      <StartScreen
+        v-if="GAME.state.stage === 'before'"
+        @openSettings="toggleSettings"
+      />
+      <PauseScreen v-if="GAME.state.paused" @openSettings="toggleSettings" />
 
-    <GameOverScreen v-if="GAME.state.stage === 'gameOver'" />
+      <GameOverScreen v-if="GAME.state.stage === 'gameOver'" />
 
-    <ScreenOverlay v-if="showSettings">
-      <SettingsScreen @close="toggleSettings" />
-    </ScreenOverlay>
-
-    <canvas
-      id="boardCanvas"
-      ref="canvas"
-      :width="CANVAS_WIDTH"
-      :height="CANVAS_HEIGHT"
-    ></canvas>
+      <ScreenOverlay v-if="showSettings">
+        <SettingsScreen @close="toggleSettings" />
+      </ScreenOverlay>
+      <canvas
+        id="boardCanvas"
+        ref="canvas"
+        :width="CANVAS_WIDTH"
+        :height="CANVAS_HEIGHT"
+      ></canvas>
+    </div>
+    <aside class="px-2">
+      <Timer />
+    </aside>
   </div>
 </template>

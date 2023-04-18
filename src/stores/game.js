@@ -9,6 +9,7 @@ function createInitialState() {
   return {
     stage: 'before', // 'before' | 'playing' | 'gameOver'
     paused: false,
+    timer: 0,
     score: 0,
     level: 0,
     lines: 0,
@@ -26,6 +27,7 @@ export const useGameStore = defineStore('game', () => {
   })
 
   function startGame() {
+    state.timer = 0
     state.stage = 'playing'
     tetromino.current = new Tetromino(state.board)
     tetromino.next = new Tetromino(state.board)
