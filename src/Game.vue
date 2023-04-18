@@ -5,6 +5,8 @@ import { CANVAS_WIDTH, CANVAS_HEIGHT } from '@/constants/misc.js'
 import { drawBoard, drawTetromino, drawGhost } from '@/game/draw.js'
 
 import ScreenOverlay from '@/components/ScreenOverlay.vue'
+import StartScreen from '@/components/StartScreen.vue'
+import PauseScreen from '@/components/PauseScreen.vue'
 import { useGameStore, useSettingsStore } from '@/stores'
 
 import SettingsScreen from '@/components/SettingsScreen.vue'
@@ -59,24 +61,11 @@ onUnmounted(() => {
     class="game-container relative mx-auto"
     :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
   >
-    <ScreenOverlay v-if="GAME.state.stage === 'before'">
-      <p class="text-3xl">
-        Press<br />
-        <span class="bg-indigo-500 px-2">SPACE</span><br />
-        to start
-      </p>
-      <button @click="toggleSettings" class="mt-4 flex items-center gap-2">
-        <i class="material-icons">settings</i> Settings
-      </button>
-    </ScreenOverlay>
-
-    <ScreenOverlay v-if="GAME.state.paused">
-      <p class="text-3xl">
-        Paused<br />
-        <span class="bg-indigo-500 px-2">P</span>
-        to resume
-      </p>
-    </ScreenOverlay>
+    <StartScreen
+      v-if="GAME.state.stage === 'before'"
+      @openSettings="toggleSettings"
+    />
+    <PauseScreen v-if="GAME.state.paused" @openSettings="toggleSettings" />
 
     <ScreenOverlay v-if="showSettings">
       <SettingsScreen @close="toggleSettings" />
