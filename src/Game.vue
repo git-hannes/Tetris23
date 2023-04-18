@@ -10,6 +10,7 @@ import PauseScreen from '@/components/PauseScreen.vue'
 import { useGameStore, useSettingsStore } from '@/stores'
 
 import SettingsScreen from '@/components/SettingsScreen.vue'
+import GameOverScreen from '@/components/GameOverScreen.vue'
 
 const GAME = useGameStore()
 const SETTINGS = useSettingsStore()
@@ -66,6 +67,8 @@ onUnmounted(() => {
       @openSettings="toggleSettings"
     />
     <PauseScreen v-if="GAME.state.paused" @openSettings="toggleSettings" />
+
+    <GameOverScreen v-if="GAME.state.stage === 'gameOver'" />
 
     <ScreenOverlay v-if="showSettings">
       <SettingsScreen @close="toggleSettings" />

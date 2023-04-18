@@ -1,5 +1,10 @@
+<script setup>
+import ScreenOverlay from '@/components/ScreenOverlay.vue'
+</script>
+
 <template>
   <ScreenOverlay>
+    <h1 class="text-4xl">- Tetris -</h1>
     <p class="text-3xl">
       Press<br />
       <span class="bg-indigo-500 px-2">SPACE</span><br />
@@ -10,13 +15,3 @@
     </button>
   </ScreenOverlay>
 </template>
-
-<script>
-import ScreenOverlay from '@/components/ScreenOverlay.vue'
-
-export default {
-  components: {
-    ScreenOverlay
-  }
-}
-</script>

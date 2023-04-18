@@ -1,7 +1,12 @@
+<script setup>
+import ScreenOverlay from '@/components/ScreenOverlay.vue'
+</script>
+
 <template>
   <ScreenOverlay>
+    <h1 class="text-4xl">- Paused -</h1>
     <p class="text-3xl">
-      Paused<br />
+      Press
       <span class="bg-indigo-500 px-2">P</span><br />
       to resume
     </p>
@@ -10,13 +15,3 @@
     </button>
   </ScreenOverlay>
 </template>
-
-<script>
-import ScreenOverlay from '@/components/ScreenOverlay.vue'
-
-export default {
-  components: {
-    ScreenOverlay
-  }
-}
-</script>

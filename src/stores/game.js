@@ -7,7 +7,7 @@ import { COLS, ROWS } from '@/constants/misc.js'
 
 function createInitialState() {
   return {
-    stage: 'before', // 'before' | 'playing' | 'after'
+    stage: 'before', // 'before' | 'playing' | 'gameOver'
     paused: false,
     score: 0,
     level: 0,
@@ -48,7 +48,7 @@ export const useGameStore = defineStore('game', () => {
 
     // Check if the newly spawned Tetromino is colliding with the existing board matrix
     if (tetromino.current.isColliding()) {
-      state.stage = 'after'
+      state.stage = 'gameOver'
     }
   }
 
