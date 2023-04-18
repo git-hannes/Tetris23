@@ -7,9 +7,17 @@ import { drawBoard, drawTetromino, drawGhost } from '@/game/draw.js'
 import ScreenOverlay from '@/components/ScreenOverlay.vue'
 import { useGameStore, useSettingsStore } from '@/stores'
 
+import SettingsScreen from '@/components/SettingsScreen.vue'
+
 const GAME = useGameStore()
 const SETTINGS = useSettingsStore()
 let canvas = ref(null)
+
+const showSettings = ref(false)
+
+const toggleSettings = () => {
+  showSettings.value = !showSettings.value
+}
 
 function gameLoop(ctx, timestamp) {
   // I probably shouldn't be doing this inside the game loop,
@@ -50,18 +58,17 @@ onUnmounted(() => {
     :style="{ width: `${CANVAS_WIDTH}px`, height: `${CANVAS_HEIGHT}px` }"
   >
     <ScreenOverlay v-if="GAME.state.stage === 'before'">
-      <p>
+      <p class="text-3xl">
         Press<br />
         <span class="bg-indigo-500 px-2">SPACE</span><br />
         to start
       </p>
+      <button @click="toggleSettings" class="mt-4 flex items-center gap-2">
+        <i class="material-icons">settings</i> Settings
+      </button>
     </ScreenOverlay>
-    <ScreenOverlay v-if="GAME.state.stage === 'after'">
-      <p>
-        <span class="text-3xl">Game Over</span> <br />Press<br />
-        <span class="bg-orange-500 px-2">ENTER</span><br />
-        to restart
-      </p>
+    <ScreenOverlay v-if="showSettings">
+      <SettingsScreen @close="toggleSettings" />
     </ScreenOverlay>
     <canvas
       id="boardCanvas"
