@@ -20,14 +20,12 @@ const toggleSettings = () => {
 }
 
 function gameLoop(ctx, timestamp) {
-  // I probably shouldn't be doing this inside the game loop,
-  // but declaring it outside the loop causes a bug
   const TETROMINO = GAME.tetromino
 
   ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
   drawBoard(ctx, GAME)
 
-  if (GAME.state.stage === 'playing') {
+  if (GAME.state.stage === 'playing' && !GAME.state.paused) {
     drawTetromino(ctx, TETROMINO.current, TETROMINO.current.shape)
     drawGhost(ctx, GAME, TETROMINO.current, SETTINGS)
 
@@ -44,11 +42,15 @@ function gameLoop(ctx, timestamp) {
 onMounted(() => {
   const ctx = canvas.value.getContext('2d')
   gameLoop(ctx, 0)
-  window.addEventListener('keydown', handleKeyDown)
+  window.addEventListener('keydown', (event) =>
+    handleKeyDown(event, showSettings)
+  )
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeyDown)
+  window.removeEventListener('keydown', (event) =>
+    handleKeyDown(event, showSettings)
+  )
 })
 </script>
 
@@ -67,9 +69,19 @@ onUnmounted(() => {
         <i class="material-icons">settings</i> Settings
       </button>
     </ScreenOverlay>
+
+    <ScreenOverlay v-if="GAME.state.paused">
+      <p class="text-3xl">
+        Paused<br />
+        <span class="bg-indigo-500 px-2">P</span>
+        to resume
+      </p>
+    </ScreenOverlay>
+
     <ScreenOverlay v-if="showSettings">
       <SettingsScreen @close="toggleSettings" />
     </ScreenOverlay>
+
     <canvas
       id="boardCanvas"
       ref="canvas"

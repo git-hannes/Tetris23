@@ -8,6 +8,7 @@ import { COLS, ROWS } from '@/constants/misc.js'
 function createInitialState() {
   return {
     stage: 'before', // 'before' | 'playing' | 'after'
+    paused: false,
     score: 0,
     level: 0,
     lines: 0,
@@ -31,6 +32,12 @@ export const useGameStore = defineStore('game', () => {
     tetromino.lastDropTime = performance.now()
   }
 
+  function togglePause() {
+    if (state.stage === 'playing') {
+      state.paused = !state.paused
+    }
+  }
+
   function resetGame() {
     Object.assign(state, createInitialState())
   }
@@ -50,6 +57,7 @@ export const useGameStore = defineStore('game', () => {
   return {
     state,
     startGame,
+    togglePause,
     resetGame,
     tetromino,
     spawnNewTetromino
