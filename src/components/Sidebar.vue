@@ -33,7 +33,10 @@ onMounted(() => {
 
 <template>
   <div class="sidebar flex flex-col items-start gap-2">
-    <canvas id="previewCanvas" ref="previewCanvas" :width="PREVIEW_CANVAS_WIDTH" :height="PREVIEW_CANVAS_HEIGHT"></canvas>
+    <Field label="Next">
+      <canvas id="previewCanvas" ref="previewCanvas" :width="PREVIEW_CANVAS_WIDTH"
+        :height="PREVIEW_CANVAS_HEIGHT"></canvas>
+    </Field>
     <Timer />
     <Field label="Level" :value="GAME.stats.level" />
     <Field label="Lines" :value="GAME.stats.lines" />
