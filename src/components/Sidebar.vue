@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { Field } from "@/components";
-import { Timer } from "@/components";
+import { Field, Timer } from "@/components";
 import { useGameStore } from "@/stores";
 import { PREVIEW_CANVAS_WIDTH, PREVIEW_CANVAS_HEIGHT } from "@/constants/misc.js";
-import { drawPreviewTetromino } from "@/game/draw.js"; // Make sure to import drawPreviewTetromino
+import { drawPreviewTetromino } from "@/game/draw.js";
 
 const GAME = useGameStore();
 
@@ -15,28 +14,19 @@ const toggleCollapsible = () => {
   showCollapsible.value = !showCollapsible.value;
 };
 
-function drawPreview() {
+const drawPreview = () => {
   const previewCtx = previewCanvas.value.getContext("2d");
-  drawPreviewTetromino(previewCtx, GAME.tetromino.next); // Call drawPreviewTetromino with the next tetromino
-}
+  drawPreviewTetromino(previewCtx, GAME.tetromino.next);
+};
 
 onMounted(() => {
-  watch(
-    () => GAME.tetromino.next,
-    () => {
-      drawPreview();
-    },
-    { immediate: true }
-  );
+  watch(() => GAME.tetromino.next, drawPreview, { immediate: true });
 });
 </script>
 
 <template>
   <div class="sidebar flex flex-col items-start gap-2">
-    <Field label="Next">
-      <canvas id="previewCanvas" ref="previewCanvas" :width="PREVIEW_CANVAS_WIDTH"
-        :height="PREVIEW_CANVAS_HEIGHT"></canvas>
-    </Field>
+    <canvas id="previewCanvas" ref="previewCanvas" :width="PREVIEW_CANVAS_WIDTH" :height="PREVIEW_CANVAS_HEIGHT"></canvas>
     <Timer />
     <Field label="Level" :value="GAME.stats.level" />
     <Field label="Lines" :value="GAME.stats.lines" />

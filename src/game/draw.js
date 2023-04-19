@@ -32,35 +32,24 @@ export function drawTetromino(ctx, TETROMINO, SHAPE) {
 }
 
 export function drawPreviewTetromino(ctx, nextTetromino) {
-  if (!nextTetromino) return // Add this line to check for null
+  if (!nextTetromino) return
 
-  const SHAPE = nextTetromino.shape
+  const {
+    shape,
+    type,
+    data: { color }
+  } = nextTetromino
+  const isIPiece = type === 'I'
+  const maxSize = isIPiece ? PREVIEW_CANVAS_WIDTH / shape[0].length : 20
+  const cellSize = Math.min(maxSize, PREVIEW_CANVAS_HEIGHT / shape.length)
 
-  // Clear the preview canvas
   ctx.clearRect(0, 0, PREVIEW_CANVAS_WIDTH, PREVIEW_CANVAS_HEIGHT)
 
-  // Calculate the maximum cell width for the current tetromino
-  const maxCellWidth = PREVIEW_CANVAS_WIDTH / SHAPE[0].length
-  const maxCellHeight = PREVIEW_CANVAS_HEIGHT / SHAPE.length
-  const isIPiece = nextTetromino.type === 'I'
-  const maxSize = isIPiece ? maxCellWidth : 20 // Set a maximum size of 20 for every piece except the "I" piece
-  const cellSize = Math.min(maxCellWidth, maxCellHeight, maxSize) // Use the smallest value for both dimensions
-
-  // Draw the preview piece
-  for (let row = 0; row < SHAPE.length; row++) {
-    for (let col = 0; col < SHAPE[row].length; col++) {
-      if (SHAPE[row][col]) {
-        drawCell(
-          ctx,
-          col,
-          row,
-          nextTetromino.data.color,
-          cellSize, // Pass the same value for both dimensions
-          cellSize
-        )
-      }
-    }
-  }
+  shape.forEach((row, rIdx) => {
+    row.forEach((cell, cIdx) => {
+      if (cell) drawCell(ctx, cIdx, rIdx, color, cellSize, cellSize)
+    })
+  })
 }
 
 export function drawGhost(ctx, GAME, TETROMINO, SETTINGS) {
