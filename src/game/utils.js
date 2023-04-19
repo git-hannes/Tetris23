@@ -32,11 +32,11 @@ export function getRotatedMatrix(matrix, rotations) {
 /*
  * drawing helpers
  */
-export function drawCell(ctx, x, y, color) {
+export function drawCell(ctx, x, y, color, cellWidth = BS, cellHeight = BS) {
   ctx.fillStyle = color
-  ctx.fillRect(x * BS, y * BS, BS, BS)
+  ctx.fillRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight)
 
   // draw grid lines
   ctx.strokeStyle = '#111111'
-  ctx.strokeRect(x * BS, y * BS, BS, BS)
+  ctx.strokeRect(x * cellWidth, y * cellHeight, cellWidth, cellHeight)
 }
