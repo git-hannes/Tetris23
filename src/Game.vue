@@ -1,8 +1,18 @@
 <script setup>
 import { onMounted, ref, onUnmounted } from "vue";
 import { handleKeyDown } from "@/controls.js";
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from "@/constants/misc.js";
-import { drawBoard, drawTetromino, drawGhost } from "@/game/draw.js";
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  PREVIEW_CANVAS_WIDTH,
+  PREVIEW_CANVAS_HEIGHT,
+} from "@/constants/misc.js";
+import {
+  drawBoard,
+  drawTetromino,
+  drawGhost,
+  drawPreviewTetromino,
+} from "@/game/draw.js";
 
 import { useGameStore, useSettingsStore } from "@/stores";
 
@@ -18,6 +28,7 @@ import {
 const GAME = useGameStore();
 const SETTINGS = useSettingsStore();
 let canvas = ref(null);
+let previewCanvas = ref(null);
 let lastAnimationFrameTime = 0;
 
 const showSettings = ref(false);
@@ -31,7 +42,7 @@ const toggleSettings = () => {
   showSettings.value = !showSettings.value;
 };
 
-function gameLoop(ctx, timestamp) {
+function gameLoop(ctx, previewCtx, timestamp) {
   const deltaTime = timestamp - lastAnimationFrameTime;
   lastAnimationFrameTime = timestamp;
 
@@ -45,6 +56,7 @@ function gameLoop(ctx, timestamp) {
 
     drawTetromino(ctx, TETROMINO.current, TETROMINO.current.shape);
     drawGhost(ctx, GAME, TETROMINO.current, SETTINGS);
+    drawPreviewTetromino(previewCtx, GAME.tetromino.next);
 
     const fallingSpeed = 1000 - GAME.stats.level * 50;
     if (timestamp - TETROMINO.lastDropTime > fallingSpeed) {
@@ -53,12 +65,14 @@ function gameLoop(ctx, timestamp) {
     }
   }
 
-  requestAnimationFrame(gameLoop.bind(null, ctx));
+  requestAnimationFrame(gameLoop.bind(null, ctx, previewCtx));
 }
 
 onMounted(() => {
   const ctx = canvas.value.getContext("2d");
-  gameLoop(ctx, 0);
+  const previewCtx = previewCanvas.value.getContext("2d");
+  gameLoop(ctx, previewCtx, 0);
+
   window.addEventListener("keydown", (event) => handleKeyDown(event, showSettings));
 });
 
@@ -78,6 +92,8 @@ onUnmounted(() => {
       <ScreenOverlay v-if="showSettings">
         <SettingsScreen @close="toggleSettings" />
       </ScreenOverlay>
+      <canvas id="previewCanvas" ref="previewCanvas" :width="PREVIEW_CANVAS_WIDTH"
+        :height="PREVIEW_CANVAS_HEIGHT"></canvas>
       <canvas id="boardCanvas" ref="canvas" :width="CANVAS_WIDTH" :height="CANVAS_HEIGHT"></canvas>
     </div>
     <Sidebar v-show="GAME.state.stage !== 'before'">

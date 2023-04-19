@@ -1,4 +1,8 @@
-import { BLOCK_SIZE as BS } from '@/constants/misc.js'
+import {
+  BLOCK_SIZE as BS,
+  PREVIEW_CANVAS_WIDTH,
+  PREVIEW_CANVAS_HEIGHT
+} from '@/constants/misc.js'
 import { Ghost } from '@/game/tetromino.js'
 import { drawCell } from '@/game/utils.js'
 
@@ -22,6 +26,22 @@ export function drawTetromino(ctx, TETROMINO, SHAPE) {
           TETROMINO.position.y + row,
           TETROMINO.data.color
         )
+      }
+    }
+  }
+}
+
+export function drawPreviewTetromino(ctx, nextTetromino) {
+  const SHAPE = nextTetromino.shape
+
+  // Clear the preview canvas
+  ctx.clearRect(0, 0, PREVIEW_CANVAS_WIDTH, PREVIEW_CANVAS_HEIGHT)
+
+  // Draw the preview piece
+  for (let row = 0; row < SHAPE.length; row++) {
+    for (let col = 0; col < SHAPE[row].length; col++) {
+      if (SHAPE[row][col]) {
+        drawCell(ctx, col, row, nextTetromino.data.color)
       }
     }
   }

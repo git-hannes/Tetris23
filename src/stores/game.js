@@ -65,6 +65,8 @@ export const useGameStore = defineStore('game', () => {
     tetromino.current = tetromino.next
     tetromino.next = new Tetromino(state.board)
 
+    drawPreviewTetromino()
+
     // Update drought
     if (tetromino.current.type === 'I') {
       stats.drought = 0
