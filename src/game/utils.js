@@ -37,6 +37,6 @@ export function drawCell(ctx, x, y, color) {
   ctx.fillRect(x * BS, y * BS, BS, BS)
 
   // draw grid lines
-  ctx.strokeStyle = '#444444'
+  ctx.strokeStyle = '#111111'
   ctx.strokeRect(x * BS, y * BS, BS, BS)
 }

@@ -11,7 +11,7 @@ export class Tetromino {
     this.type = getRandomTetrominoType()
     this.data = TETROMINOS[this.type]
     this.rotation = 0
-    this.shape = getRotatedMatrix(this.data.shape, this.rotation) // Initialize the shape with the rotated matrix
+    this.shape = getRotatedMatrix(this.data.shape, this.rotation)
     this.position = { ...INITIAL_POSITION }
     this.gameStore = useGameStore()
   }
@@ -42,8 +42,10 @@ export class Tetromino {
     return cellsDropped
   }
 
-  rotate() {
-    const nextRotation = (this.rotation + 1) % 4
+  rotate(direction) {
+    if (this.type === 'O') return // nothing to do here
+
+    const nextRotation = (this.rotation + direction + 4) % 4
     const rotatedShape = getRotatedMatrix(this.data.shape, nextRotation)
 
     if (this.tryWallKick(this.rotation, nextRotation, rotatedShape)) {

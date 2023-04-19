@@ -1,8 +1,11 @@
+import { useGameStore } from '@/stores/game'
+
 export class Board {
   constructor(rows, cols) {
     this.rows = rows
     this.cols = cols
     this.boardMatrix = this.createEmptyBoard()
+    this.GAME = useGameStore()
   }
 
   createEmptyBoard() {
@@ -18,6 +21,20 @@ export class Board {
 
     while (this.boardMatrix.length < initialRowCount) {
       this.boardMatrix.unshift(Array(this.cols).fill(0))
+    }
+
+    if (linesCleared) {
+      this.GAME.stats.lines += linesCleared
+      this.GAME.stats.level = Math.floor(this.GAME.stats.lines / 10)
+
+      // Update lineClearCount and tetrisCount
+      this.GAME.stats.lineClearCount++
+      if (linesCleared === 4) {
+        this.GAME.stats.tetrisCount++
+      }
+
+      // Update the tetrisRate
+      this.GAME.updateTetrisRate()
     }
 
     return linesCleared
