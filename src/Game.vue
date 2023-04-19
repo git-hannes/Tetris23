@@ -2,12 +2,7 @@
 import { onMounted, ref, onUnmounted } from "vue";
 import { handleKeyDown } from "@/controls.js";
 import { CANVAS_WIDTH, CANVAS_HEIGHT } from "@/constants/misc.js";
-import {
-  drawBoard,
-  drawTetromino,
-  drawGhost,
-  drawPreviewTetromino,
-} from "@/game/draw.js";
+import { drawBoard, drawTetromino, drawGhost } from "@/game/draw.js";
 
 import { useGameStore, useSettingsStore } from "@/stores";
 

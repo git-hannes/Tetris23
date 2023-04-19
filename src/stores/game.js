@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import { Board } from '@/game/board.js'
 import { Tetromino } from '@/game/tetromino.js'
 import { COLS, ROWS } from '@/constants/misc.js'
-import { drawPreviewTetromino } from '@/game/draw.js'
+import { drawNextTetromino } from '@/game/draw.js'
 
 function createInitialState() {
   return {
@@ -66,7 +66,7 @@ export const useGameStore = defineStore('game', () => {
     tetromino.current = tetromino.next
     tetromino.next = new Tetromino(state.board)
 
-    drawPreviewTetromino()
+    drawNextTetromino()
 
     // Update drought
     if (tetromino.current.type === 'I') {

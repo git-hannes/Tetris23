@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from "vue";
 import { Field, Timer } from "@/components";
 import { useGameStore } from "@/stores";
 import { PREVIEW_CANVAS_WIDTH, PREVIEW_CANVAS_HEIGHT } from "@/constants/misc.js";
-import { drawPreviewTetromino } from "@/game/draw.js";
+import { drawNextTetromino } from "@/game/draw.js";
 
 const GAME = useGameStore();
 
@@ -14,13 +14,13 @@ const toggleCollapsible = () => {
   showCollapsible.value = !showCollapsible.value;
 };
 
-const drawPreview = () => {
+const drawNext = () => {
   const previewCtx = previewCanvas.value.getContext("2d");
-  drawPreviewTetromino(previewCtx, GAME.tetromino.next);
+  drawNextTetromino(previewCtx, GAME.tetromino.next);
 };
 
 onMounted(() => {
-  watch(() => GAME.tetromino.next, drawPreview, { immediate: true });
+  watch(() => GAME.tetromino.next, drawNext, { immediate: true });
 });
 </script>
 

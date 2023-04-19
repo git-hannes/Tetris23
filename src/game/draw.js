@@ -31,7 +31,7 @@ export function drawTetromino(ctx, TETROMINO, SHAPE) {
   }
 }
 
-export function drawPreviewTetromino(ctx, nextTetromino) {
+export function drawNextTetromino(ctx, nextTetromino) {
   if (!nextTetromino) return
 
   const {
