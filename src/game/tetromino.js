@@ -13,7 +13,7 @@ export class Tetromino {
     this.rotation = 0
     this.shape = getRotatedMatrix(this.data.shape, this.rotation)
     this.position = { ...INITIAL_POSITION }
-    this.gameStore = useGameStore()
+    this.GAME = useGameStore()
   }
 
   move(direction, isHardDrop = false) {
@@ -26,7 +26,7 @@ export class Tetromino {
     } else {
       if (direction === 'DOWN' && !isHardDrop) {
         this.lock()
-        this.gameStore.spawnNewTetromino()
+        this.GAME.spawnNewTetromino()
       }
       return false
     }
@@ -38,7 +38,7 @@ export class Tetromino {
       cellsDropped++
     }
     this.lock()
-    this.gameStore.spawnNewTetromino()
+    this.GAME.spawnNewTetromino()
     return cellsDropped
   }
 
@@ -108,7 +108,7 @@ export class Tetromino {
 
     // Update game state based on the number of cleared lines (if needed)
     if (linesCleared) {
-      // this.gameStore.updateScore(linesCleared)
+      // Update score
     }
   }
 }

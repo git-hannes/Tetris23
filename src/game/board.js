@@ -27,8 +27,8 @@ export class Board {
       this.GAME.stats.lines += linesCleared
       this.GAME.stats.level = Math.floor(this.GAME.stats.lines / 10)
 
-      // Update lineClearCount and tetrisCount
-      this.GAME.stats.lineClearCount++
+      // Update totalLineClearCount and tetrisCount
+      this.GAME.stats.totalLineClearCount++
       if (linesCleared === 4) {
         this.GAME.stats.tetrisCount++
       }

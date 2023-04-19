@@ -1,4 +1,3 @@
-// game.js
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { Board } from '@/game/board.js'
@@ -24,7 +23,7 @@ export const useGameStore = defineStore('game', () => {
     score: 0,
     drought: 0,
     tetrisRate: 0,
-    lineClearCount: 0,
+    totalLineClearCount: 0,
     tetrisCount: 0
   })
 
@@ -57,7 +56,7 @@ export const useGameStore = defineStore('game', () => {
     stats.level = 1
     stats.lines = 0
     stats.tetrisRate = 0
-    stats.lineClearCount = 0
+    stats.totalLineClearCount = 0
     stats.tetrisCount = 0
     stats.drought = 0
   }
@@ -82,11 +81,11 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function updateTetrisRate() {
-    if (stats.lineClearCount === 0) {
+    if (stats.totalLineClearCount === 0) {
       stats.tetrisRate = 0
     } else {
       stats.tetrisRate = Math.round(
-        (stats.tetrisCount / stats.lineClearCount) * 100
+        (stats.tetrisCount / stats.totalLineClearCount) * 100
       )
     }
   }
