@@ -30,6 +30,7 @@ onMounted(() => {
     <Timer />
     <Field label="Level" :value="GAME.stats.level" />
     <Field label="Lines" :value="GAME.stats.lines" />
+    <Field label="Score" :value="GAME.stats.score" />
     <button @click="toggleCollapsible">
       <span v-show="!showCollapsible" class="material-icons text-xl text-green-400">more_horiz</span>
       <span v-show="showCollapsible" class="material-icons text-xl text-green-400">expand_less</span>
